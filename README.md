@@ -14,7 +14,7 @@ Each theme isn't just a palette swap. Themes ship unique waybar layouts, differe
 - **Atomic installer** — backs up configs, rolls back on failure, clean uninstall
 - **AI-friendly** — clean structure that works great with Claude Code. Describe a vibe, get a rice.
 
-## Included themes
+## Included themes (13)
 
 | Theme | Vibe | Bar style |
 |-------|------|-----------|
@@ -22,7 +22,15 @@ Each theme isn't just a palette swap. Themes ship unique waybar layouts, differe
 | **Tokyo Night** | Cyberpunk minimal | Thin HUD line at bottom |
 | **Gruvbox Dark** | Warm retro cozy | Solid full-width, info-dense |
 | **Nord** | Arctic clean | Bare floating text, no backgrounds |
-| **Rose Pine** | Soft aesthetic | Single rounded capsule |
+| **Rosé Pine** | Soft aesthetic | Single rounded capsule |
+| **Dracula** | Classic purple/pink | Split left/right islands |
+| **Kanagawa** | Japanese zen | Bare text, kanji workspaces |
+| **Everforest** | Nature green/olive | Rounded panel, leaf separators |
+| **One Dark** | Developer IDE | VS Code status bar style |
+| **Synthwave '84** | Neon retrowave | Glowing bottom strip |
+| **Solarized Dark** | Precision classic | Traditional unix status line |
+| **Monokai Pro** | Vivid and bold | Color-block module badges |
+| **Horizon** | Warm sunset | Gradient-bordered islands |
 
 ## What gets themed
 
