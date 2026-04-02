@@ -17,7 +17,7 @@
 }
 
 .modules-left {
-    background: rgba({{bg_rgb}}, 0.88);
+    background: alpha({{bg}}, 0.88);
     border-radius: 14px;
     border: 1px solid {{surface1}};
     padding: 0 2px;
@@ -59,7 +59,7 @@
 }
 
 .modules-center {
-    background: rgba({{bg_rgb}}, 0.88);
+    background: alpha({{bg}}, 0.88);
     border-radius: 14px;
     border: 1px solid {{surface1}};
 }
@@ -71,7 +71,7 @@
 }
 
 .modules-right {
-    background: rgba({{bg_rgb}}, 0.88);
+    background: alpha({{bg}}, 0.88);
     border-radius: 14px;
     border: 1px solid {{surface1}};
     padding: 0 4px;
