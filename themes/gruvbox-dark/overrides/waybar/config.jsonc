@@ -1,0 +1,113 @@
+{
+    "layer": "top",
+    "position": "top",
+    "margin-top": 0,
+    "margin-left": 0,
+    "margin-right": 0,
+    "spacing": 0,
+    "modules-left": [
+        "custom/logo",
+        "hyprland/workspaces",
+        "hyprland/window"
+    ],
+    "modules-center": [
+        "clock"
+    ],
+    "modules-right": [
+        "cpu",
+        "memory",
+        "disk",
+        "temperature",
+        "backlight",
+        "wireplumber",
+        "battery",
+        "tray",
+        "custom/power"
+    ],
+    "custom/logo": {
+        "format": "",
+        "tooltip": false,
+        "on-click": "rofi -show drun"
+    },
+    "hyprland/workspaces": {
+        "format": "{name}",
+        "on-scroll-up": "hyprctl dispatch workspace e+1 1>/dev/null",
+        "on-scroll-down": "hyprctl dispatch workspace e-1 1>/dev/null",
+        "sort-by-number": true,
+        "active-only": false,
+        "persistent-workspaces": {
+            "*": 5
+        }
+    },
+    "hyprland/window": {
+        "format": "{}",
+        "max-length": 40,
+        "separate-outputs": true
+    },
+    "clock": {
+        "format": "  {:%a %b %d  %H:%M}",
+        "format-alt": "  {:%Y-%m-%d  %H:%M:%S}",
+        "tooltip-format": "<big>{:%Y %B}</big>\n<tt><small>{calendar}</small></tt>",
+        "interval": 1
+    },
+    "cpu": {
+        "interval": 3,
+        "format": " {usage}%",
+        "tooltip-format": "{avg_frequency}GHz  {load}  load"
+    },
+    "memory": {
+        "interval": 5,
+        "format": " {percentage}%",
+        "tooltip-format": "{used:0.1f}G / {total:0.1f}G  ({swapUsed:0.1f}G swap)"
+    },
+    "disk": {
+        "interval": 30,
+        "format": " {percentage_used}%",
+        "path": "/",
+        "tooltip-format": "{used} / {total}  ({path})"
+    },
+    "temperature": {
+        "critical-threshold": 80,
+        "format": " {temperatureC}°",
+        "format-critical": " {temperatureC}°!",
+        "interval": 3
+    },
+    "backlight": {
+        "format": " {percent}%",
+        "on-scroll-down": "brightnessctl s 5%-",
+        "on-scroll-up": "brightnessctl s +5%"
+    },
+    "wireplumber": {
+        "format": " {volume}%",
+        "format-muted": " mute",
+        "on-click": "pavucontrol",
+        "on-click-right": "amixer sset Master toggle 1>/dev/null"
+    },
+    "battery": {
+        "interval": 10,
+        "states": {
+            "good": 95,
+            "warning": 30,
+            "critical": 15
+        },
+        "format": "{icon} {capacity}%",
+        "format-charging": " {capacity}%",
+        "format-plugged": " {capacity}%",
+        "format-icons": [
+            "",
+            "",
+            "",
+            "",
+            ""
+        ]
+    },
+    "tray": {
+        "icon-size": 16,
+        "spacing": 6
+    },
+    "custom/power": {
+        "format": "",
+        "tooltip": false,
+        "on-click": "wlogout"
+    }
+}

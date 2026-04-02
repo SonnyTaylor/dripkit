@@ -1,0 +1,143 @@
+/* dripkit — Nord ultra-minimal waybar */
+
+@define-color bg        rgba(46, 52, 64, 0.8);
+@define-color surface0  #3b4252;
+@define-color surface1  #434c5e;
+@define-color surface2  #4c566a;
+@define-color overlay0  #616e88;
+@define-color fg        #eceff4;
+@define-color accent    #88c0d0;
+@define-color red       #bf616a;
+@define-color green     #a3be8c;
+@define-color yellow    #ebcb8b;
+@define-color mauve     #b48ead;
+@define-color teal      #8fbcbb;
+@define-color peach     #d08770;
+@define-color lavender  #81a1c1;
+
+* {
+    font-family: "JetBrainsMono Nerd Font";
+    font-size: 12px;
+    font-weight: 400;
+    border: none;
+    border-radius: 0;
+    min-height: 0;
+    padding: 0;
+    margin: 0;
+}
+
+/* ---- Base ---- */
+
+#waybar {
+    background: transparent;
+    color: @fg;
+}
+
+/* ---- Left island ---- */
+
+.modules-left {
+    background: @bg;
+    border-radius: 10px;
+    border: 1px solid @surface1;
+    padding: 0 2px;
+}
+
+#workspaces {
+    padding: 0;
+}
+
+#workspaces button {
+    padding: 4px 6px;
+    margin: 2px 1px;
+    border-radius: 8px;
+    color: @overlay0;
+    background: transparent;
+    font-size: 10px;
+    transition: all 0.15s ease;
+}
+
+#workspaces button.active {
+    color: @accent;
+}
+
+#workspaces button:hover {
+    color: @fg;
+}
+
+#workspaces button.urgent {
+    color: @red;
+}
+
+/* ---- Center island ---- */
+
+.modules-center {
+    background: @bg;
+    border-radius: 10px;
+    border: 1px solid @surface1;
+}
+
+#clock {
+    color: @fg;
+    font-weight: 500;
+    padding: 4px 14px;
+    letter-spacing: 0.5px;
+}
+
+/* ---- Right island ---- */
+
+.modules-right {
+    background: @bg;
+    border-radius: 10px;
+    border: 1px solid @surface1;
+    padding: 0 2px;
+}
+
+#wireplumber {
+    color: @lavender;
+    padding: 4px 8px;
+    margin: 2px 0;
+    font-size: 12px;
+}
+
+#wireplumber.muted {
+    color: @overlay0;
+}
+
+#battery {
+    color: @green;
+    padding: 4px 8px;
+    margin: 2px 0;
+    font-size: 12px;
+}
+
+#battery.charging,
+#battery.plugged {
+    color: @green;
+}
+
+#battery.warning:not(.charging) {
+    color: @yellow;
+}
+
+#battery.critical:not(.charging) {
+    color: @red;
+    animation: pulse 1.5s ease infinite alternate;
+}
+
+@keyframes pulse {
+    to { color: @overlay0; }
+}
+
+/* ---- Tooltip ---- */
+
+tooltip {
+    background: @bg;
+    border: 1px solid @surface1;
+    border-radius: 8px;
+    color: @fg;
+    padding: 6px;
+}
+
+tooltip label {
+    color: @fg;
+}

@@ -1,0 +1,185 @@
+/* dripkit gruvbox-dark waybar — chunky retro dense bar */
+
+* {
+    font-family: "JetBrainsMono Nerd Font";
+    font-size: 13px;
+    font-weight: 500;
+    border: none;
+    border-radius: 0;
+    min-height: 0;
+    padding: 0;
+    margin: 0;
+}
+
+#waybar {
+    background: #282828;
+    color: #ebdbb2;
+    border-bottom: 2px solid #3c3836;
+}
+
+/* -- Left group ----------------------------------------------------------- */
+
+#custom-logo {
+    color: #fe8019;
+    font-size: 17px;
+    padding: 6px 14px 6px 16px;
+    background: #3c3836;
+    border-right: 2px solid #504945;
+}
+
+#custom-logo:hover { color: #fabd2f; }
+
+#workspaces {
+    padding: 0;
+}
+
+#workspaces button {
+    padding: 6px 12px;
+    color: #7c6f64;
+    background: transparent;
+    border-left: 2px solid #3c3836;
+    border-radius: 0;
+    font-size: 13px;
+    font-weight: 700;
+    transition: all 0.12s ease;
+}
+
+#workspaces button.active {
+    color: #fabd2f;
+    background: #504945;
+    border-left: 2px solid #fabd2f;
+}
+
+#workspaces button:hover {
+    color: #ebdbb2;
+    background: #3c3836;
+}
+
+#workspaces button.urgent {
+    color: #fb4934;
+    background: #3c3836;
+    border-left: 2px solid #fb4934;
+}
+
+#window {
+    color: #bdae93;
+    padding: 6px 16px;
+    border-left: 2px solid #3c3836;
+    font-style: italic;
+}
+
+/* -- Center group --------------------------------------------------------- */
+
+#clock {
+    color: #ebdbb2;
+    font-weight: 700;
+    padding: 6px 20px;
+    border-left: 2px solid #83a598;
+    letter-spacing: 0.5px;
+}
+
+/* -- Right group ---------------------------------------------------------- */
+
+#cpu {
+    color: #b8bb26;
+    padding: 6px 12px;
+    border-left: 2px solid #b8bb26;
+}
+
+#memory {
+    color: #fabd2f;
+    padding: 6px 12px;
+    border-left: 2px solid #fabd2f;
+}
+
+#disk {
+    color: #fe8019;
+    padding: 6px 12px;
+    border-left: 2px solid #fe8019;
+}
+
+#temperature {
+    color: #fb4934;
+    padding: 6px 12px;
+    border-left: 2px solid #fb4934;
+}
+
+#temperature.critical {
+    color: #282828;
+    background: #fb4934;
+    font-weight: 700;
+}
+
+#backlight {
+    color: #8ec07c;
+    padding: 6px 12px;
+    border-left: 2px solid #8ec07c;
+}
+
+#wireplumber {
+    color: #d3869b;
+    padding: 6px 12px;
+    border-left: 2px solid #d3869b;
+}
+
+#wireplumber.muted {
+    color: #7c6f64;
+    border-left-color: #7c6f64;
+}
+
+#battery {
+    color: #83a598;
+    padding: 6px 12px;
+    border-left: 2px solid #83a598;
+}
+
+#battery.charging, #battery.plugged {
+    color: #b8bb26;
+    border-left-color: #b8bb26;
+}
+
+#battery.warning:not(.charging) {
+    color: #fabd2f;
+    border-left-color: #fabd2f;
+}
+
+#battery.critical:not(.charging) {
+    color: #fb4934;
+    border-left-color: #fb4934;
+    animation: pulse 1s ease infinite alternate;
+}
+
+@keyframes pulse { to { color: #ebdbb2; } }
+
+#tray {
+    padding: 6px 10px;
+    border-left: 2px solid #3c3836;
+    color: #bdae93;
+}
+
+#tray > .passive { -gtk-icon-effect: dim; }
+
+#custom-power {
+    color: #fb4934;
+    padding: 6px 16px 6px 12px;
+    border-left: 2px solid #fb4934;
+    font-size: 15px;
+    transition: all 0.15s ease;
+}
+
+#custom-power:hover {
+    color: #282828;
+    background: #fb4934;
+}
+
+/* -- Tooltips ------------------------------------------------------------- */
+
+tooltip {
+    background: #282828;
+    border: 2px solid #504945;
+    border-radius: 0;
+    color: #ebdbb2;
+    padding: 8px;
+}
+
+tooltip label { color: #ebdbb2; }

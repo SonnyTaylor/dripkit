@@ -1,0 +1,181 @@
+/* dripkit — Rose Pine soft island waybar */
+
+* {
+    font-family: "JetBrainsMono Nerd Font";
+    font-size: 13px;
+    font-weight: 500;
+    border: none;
+    border-radius: 0;
+    min-height: 0;
+    padding: 0;
+    margin: 0;
+}
+
+/* ---- Base ---- */
+
+window#waybar {
+    background: transparent;
+    color: #e0def4;
+}
+
+/* ---- Islands ---- */
+
+.modules-left,
+.modules-center,
+.modules-right {
+    background: rgba(25, 23, 36, 0.88);
+    border: 1px solid #26233a;
+    border-radius: 16px;
+    padding: 0 4px;
+    margin: 2px 4px;
+}
+
+/* ---- Left island: workspaces + window ---- */
+
+#workspaces {
+    padding: 0 4px;
+}
+
+#workspaces button {
+    padding: 6px 10px;
+    margin: 3px 2px;
+    border-radius: 12px;
+    color: #6e6a86;
+    background: transparent;
+    font-size: 13px;
+    font-weight: 600;
+    transition: all 0.2s ease;
+}
+
+#workspaces button.active {
+    color: #c4a7e7;
+    background: alpha(#c4a7e7, 0.18);
+}
+
+#workspaces button:hover {
+    color: #e0def4;
+    background: #1f1d2e;
+}
+
+#workspaces button.urgent {
+    color: #eb6f92;
+    background: alpha(#eb6f92, 0.15);
+}
+
+#custom-spacer {
+    padding: 0 2px;
+}
+
+#window {
+    color: #908caa;
+    padding: 6px 14px;
+    font-style: italic;
+    transition: all 0.2s ease;
+}
+
+/* ---- Center island: clock ---- */
+
+.modules-center {
+    padding: 0 6px;
+}
+
+#clock {
+    color: #e0def4;
+    font-weight: 700;
+    padding: 6px 20px;
+    letter-spacing: 0.5px;
+    transition: all 0.2s ease;
+}
+
+#clock:hover {
+    color: #ebbcba;
+}
+
+/* ---- Right island ---- */
+
+.modules-right {
+    padding: 0 4px;
+}
+
+#backlight {
+    color: #f6c177;
+    padding: 6px 12px;
+    margin: 3px 1px;
+    border-radius: 12px;
+    transition: all 0.2s ease;
+}
+
+#backlight:hover {
+    background: #1f1d2e;
+}
+
+#wireplumber {
+    color: #c4a7e7;
+    padding: 6px 12px;
+    margin: 3px 1px;
+    border-radius: 12px;
+    transition: all 0.2s ease;
+}
+
+#wireplumber:hover {
+    background: #1f1d2e;
+}
+
+#wireplumber.muted {
+    color: #6e6a86;
+}
+
+#battery {
+    color: #9ccfd8;
+    padding: 6px 12px;
+    margin: 3px 1px;
+    border-radius: 12px;
+    transition: all 0.2s ease;
+}
+
+#battery:hover {
+    background: #1f1d2e;
+}
+
+#battery.charging,
+#battery.plugged {
+    color: #31748f;
+}
+
+#battery.warning:not(.charging) {
+    color: #f6c177;
+}
+
+#battery.critical:not(.charging) {
+    color: #eb6f92;
+    animation: pulse 1s ease infinite alternate;
+}
+
+@keyframes pulse {
+    to { color: #e0def4; }
+}
+
+#tray {
+    padding: 6px 10px;
+    margin: 3px 1px;
+    color: #908caa;
+    transition: all 0.2s ease;
+}
+
+#tray > .passive {
+    -gtk-icon-effect: dim;
+}
+
+/* ---- Tooltip ---- */
+
+tooltip {
+    background: rgba(25, 23, 36, 0.92);
+    border: 1px solid #26233a;
+    border-radius: 14px;
+    color: #e0def4;
+    padding: 10px;
+}
+
+tooltip label {
+    color: #e0def4;
+}
