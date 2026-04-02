@@ -1,0 +1,157 @@
+/* dripkit — Dracula split-bar waybar */
+
+* {
+    font-family: "JetBrainsMono Nerd Font";
+    font-size: 14px;
+    font-weight: 500;
+    border: none;
+    border-radius: 0;
+    min-height: 0;
+    padding: 0;
+    margin: 0;
+}
+
+/* ---- Base ---- */
+
+#waybar {
+    background: transparent;
+    color: #f8f8f2;
+}
+
+/* ---- Left island (workspaces) ---- */
+
+.modules-left {
+    background: rgba(40, 42, 54, 0.85);
+    border-radius: 12px;
+    border-bottom: 2px solid #bd93f9;
+    padding: 0 2px;
+}
+
+#workspaces {
+    padding: 0 4px;
+}
+
+#workspaces button {
+    padding: 6px 10px;
+    margin: 3px 2px;
+    border-radius: 8px;
+    color: #6272a4;
+    background: transparent;
+    font-size: 13px;
+    transition: all 0.15s ease;
+}
+
+#workspaces button.active {
+    color: #ff79c6;
+    background: rgba(255, 121, 198, 0.15);
+}
+
+#workspaces button:hover {
+    color: #f8f8f2;
+    background: #44475a;
+}
+
+#workspaces button.urgent {
+    color: #ff5555;
+    background: rgba(255, 85, 85, 0.15);
+}
+
+/* ---- Center (empty — wallpaper shows through) ---- */
+
+.modules-center {
+    background: transparent;
+}
+
+/* ---- Right island ---- */
+
+.modules-right {
+    background: rgba(40, 42, 54, 0.85);
+    border-radius: 12px;
+    border-bottom: 2px solid #bd93f9;
+    padding: 0 4px;
+}
+
+/* Separators */
+#custom-sep,
+#custom-sep.1,
+#custom-sep.2,
+#custom-sep.3 {
+    color: #44475a;
+    font-size: 11px;
+    padding: 0 2px;
+    margin: 6px 0;
+}
+
+/* Modules */
+#clock {
+    color: #f8f8f2;
+    font-weight: 700;
+    padding: 6px 14px;
+    margin: 3px 0;
+}
+
+#cpu {
+    color: #8be9fd;
+    padding: 6px 10px;
+    margin: 3px 0;
+}
+
+#wireplumber {
+    color: #bd93f9;
+    padding: 6px 10px;
+    margin: 3px 0;
+}
+
+#wireplumber.muted {
+    color: #6272a4;
+}
+
+#battery {
+    color: #50fa7b;
+    padding: 6px 10px;
+    margin: 3px 0;
+}
+
+#battery.charging,
+#battery.plugged {
+    color: #50fa7b;
+}
+
+#battery.warning:not(.charging) {
+    color: #f1fa8c;
+}
+
+#battery.critical:not(.charging) {
+    color: #ff5555;
+    animation: pulse 1s ease infinite alternate;
+}
+
+@keyframes pulse {
+    to { color: #f8f8f2; }
+}
+
+#custom-power {
+    color: #ff5555;
+    padding: 6px 12px 6px 8px;
+    margin: 3px 0;
+    font-size: 15px;
+    transition: all 0.2s ease;
+}
+
+#custom-power:hover {
+    color: #f8f8f2;
+}
+
+/* ---- Tooltip ---- */
+
+tooltip {
+    background: rgba(40, 42, 54, 0.95);
+    border: 1px solid #44475a;
+    border-radius: 12px;
+    color: #f8f8f2;
+    padding: 8px;
+}
+
+tooltip label {
+    color: #f8f8f2;
+}

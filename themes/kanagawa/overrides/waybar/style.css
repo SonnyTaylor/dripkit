@@ -1,0 +1,107 @@
+/* dripkit — Kanagawa zen minimal waybar */
+
+* {
+    font-family: "JetBrainsMono Nerd Font";
+    font-size: 13px;
+    font-weight: 500;
+    border: none;
+    border-radius: 0;
+    min-height: 0;
+    padding: 0;
+    margin: 0;
+}
+
+/* ---- Base ---- */
+
+#waybar {
+    background: transparent;
+    color: #727169;
+}
+
+/* ---- No backgrounds on module groups ---- */
+
+.modules-left,
+.modules-center,
+.modules-right {
+    background: transparent;
+    border: none;
+    padding: 0;
+}
+
+/* ---- Workspaces ---- */
+
+#workspaces {
+    padding: 0;
+}
+
+#workspaces button {
+    padding: 6px 8px;
+    margin: 0 1px;
+    border-radius: 0;
+    color: #727169;
+    background: transparent;
+    font-size: 13px;
+    transition: color 0.2s ease;
+}
+
+#workspaces button.active {
+    color: #e6c384;
+    background: transparent;
+}
+
+#workspaces button:hover {
+    color: #dcd7ba;
+    background: transparent;
+}
+
+#workspaces button.urgent {
+    color: #e82424;
+    background: transparent;
+}
+
+/* ---- Clock ---- */
+
+#clock {
+    color: #727169;
+    font-weight: 500;
+    padding: 6px 12px;
+}
+
+/* ---- Battery ---- */
+
+#battery {
+    color: #727169;
+    padding: 6px 12px;
+}
+
+#battery.charging,
+#battery.plugged {
+    color: #76946a;
+}
+
+#battery.warning:not(.charging) {
+    color: #e6c384;
+}
+
+#battery.critical:not(.charging) {
+    color: #e82424;
+    animation: pulse 1s ease infinite alternate;
+}
+
+@keyframes pulse {
+    to { color: #dcd7ba; }
+}
+
+/* ---- Tooltip ---- */
+
+tooltip {
+    background: rgba(31, 31, 40, 0.92);
+    border: 1px solid #363646;
+    border-radius: 6px;
+    color: #dcd7ba;
+    padding: 8px;
+}
+
+tooltip label {
+    color: #dcd7ba;
+}

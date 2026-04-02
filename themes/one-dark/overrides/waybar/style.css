@@ -1,0 +1,182 @@
+/* dripkit -- One Dark developer bar (VS Code status bar style) */
+
+@define-color bg        #282c34;
+@define-color bg-light  #2c313a;
+@define-color surface0  #2c313a;
+@define-color surface1  #3b4048;
+@define-color surface2  #4b5263;
+@define-color overlay0  #636d83;
+@define-color fg        #abb2bf;
+@define-color subtext0  #9da5b4;
+@define-color accent    #61afef;
+@define-color red       #e06c75;
+@define-color green     #98c379;
+@define-color yellow    #e5c07b;
+@define-color peach     #d19a66;
+@define-color mauve     #c678dd;
+@define-color teal      #56b6c2;
+
+* {
+    font-family: "JetBrainsMono Nerd Font";
+    font-size: 13px;
+    font-weight: 500;
+    border: none;
+    border-radius: 0;
+    min-height: 0;
+    padding: 0;
+    margin: 0;
+}
+
+/* ---- Base bar: solid bg, thin accent border on top ---- */
+
+#waybar {
+    background: @bg;
+    color: @fg;
+    border-top: 1px solid @accent;
+}
+
+/* ---- Left: workspace tabs (editor tab bar) ---- */
+
+.modules-left {
+    background: transparent;
+    padding: 0;
+}
+
+#custom-branch {
+    color: @accent;
+    padding: 4px 12px 4px 10px;
+    font-weight: 700;
+}
+
+#workspaces {
+    padding: 0;
+}
+
+#workspaces button {
+    padding: 4px 14px;
+    color: @overlay0;
+    background: transparent;
+    border-top: 2px solid transparent;
+    border-bottom: none;
+    font-size: 13px;
+    transition: all 0.1s ease;
+}
+
+#workspaces button.active {
+    color: @fg;
+    background: @bg-light;
+    border-top: 2px solid @accent;
+}
+
+#workspaces button:hover {
+    color: @fg;
+    background: @surface1;
+}
+
+#workspaces button.urgent {
+    color: @red;
+    border-top: 2px solid @red;
+}
+
+/* ---- Center: empty ---- */
+
+.modules-center {
+    background: transparent;
+}
+
+/* ---- Right: compact status line ---- */
+
+.modules-right {
+    background: transparent;
+    padding: 0 4px 0 0;
+}
+
+/* Pipe separators */
+#custom-sep,
+#custom-sep#2,
+#custom-sep#3,
+#custom-sep#4 {
+    color: @surface2;
+    font-size: 11px;
+    padding: 0 4px;
+}
+
+/* Module base style */
+#cpu,
+#memory,
+#clock,
+#battery,
+#tray {
+    padding: 4px 8px;
+    font-family: "JetBrainsMono Nerd Font";
+    font-size: 13px;
+}
+
+#cpu {
+    color: @teal;
+}
+
+#memory {
+    color: @mauve;
+}
+
+#clock {
+    color: @accent;
+    font-weight: 700;
+}
+
+#battery {
+    color: @green;
+}
+
+#battery.charging,
+#battery.plugged {
+    color: @green;
+}
+
+#battery.warning:not(.charging) {
+    color: @yellow;
+}
+
+#battery.critical:not(.charging) {
+    color: @red;
+    animation: pulse 1s ease infinite alternate;
+}
+
+@keyframes pulse {
+    to { color: @fg; }
+}
+
+#tray {
+    padding: 4px 8px;
+    color: @subtext0;
+}
+
+#tray > .passive {
+    -gtk-icon-effect: dim;
+}
+
+#custom-power {
+    color: @red;
+    padding: 4px 10px 4px 6px;
+    font-size: 14px;
+    transition: all 0.15s ease;
+}
+
+#custom-power:hover {
+    color: @fg;
+}
+
+/* ---- Tooltip ---- */
+
+tooltip {
+    background: @bg;
+    border: 1px solid @surface1;
+    border-radius: 4px;
+    color: @fg;
+    padding: 6px;
+}
+
+tooltip label {
+    color: @fg;
+}

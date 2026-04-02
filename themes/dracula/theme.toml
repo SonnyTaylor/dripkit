@@ -1,0 +1,5 @@
+name = "Dracula"
+description = "A dark theme with vibrant purple and pink accents"
+author = "dripkit"
+variant = "dark"
+wallpaper = "wallpapers/castle.png"

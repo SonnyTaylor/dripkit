@@ -1,0 +1,5 @@
+name = "One Dark"
+description = "The iconic Atom editor theme for your desktop"
+author = "dripkit"
+variant = "dark"
+wallpaper = "wallpapers/abstract-swirls.jpg"
