@@ -1,0 +1,84 @@
+/* dripkit keybinds cheat sheet */
+
+* {
+    bg:       #1e1e2e;
+    bg-alt:   #313244;
+    fg:       #cdd6f4;
+    accent:   #89b4fa;
+    surface:  #45475a;
+    subtext:  #a6adc8;
+    yellow:   #f9e2af;
+
+    background-color: transparent;
+    text-color:       @fg;
+    font:             "JetBrainsMono Nerd Font 12";
+}
+
+window {
+    width:            650px;
+    height:           600px;
+    background-color: @bg;
+    border:           2px solid;
+    border-color:     @accent;
+    border-radius:    16px;
+    padding:          20px;
+    location:         center;
+    anchor:           center;
+}
+
+mainbox {
+    spacing: 12px;
+}
+
+inputbar {
+    background-color: @bg-alt;
+    border-radius:    12px;
+    padding:          10px 14px;
+    children:         [ prompt, entry ];
+    spacing:          10px;
+}
+
+prompt {
+    text-color: @accent;
+    font:       "JetBrainsMono Nerd Font 14";
+}
+
+entry {
+    placeholder:       "Filter keybinds...";
+    placeholder-color: @subtext;
+    text-color:        @fg;
+}
+
+message {
+    background-color: transparent;
+    padding:          0 4px;
+}
+
+textbox {
+    text-color: @subtext;
+    font:       "JetBrainsMono Nerd Font 10";
+}
+
+listview {
+    lines:        20;
+    columns:      1;
+    spacing:      2px;
+    fixed-height: true;
+    scrollbar:    false;
+}
+
+element {
+    padding:          6px 12px;
+    border-radius:    8px;
+    background-color: transparent;
+}
+
+element selected.normal {
+    background-color: @surface;
+    text-color:       @accent;
+}
+
+element-text {
+    font:             "JetBrainsMono Nerd Font 12";
+    background-color: transparent;
+}

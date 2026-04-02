@@ -1,0 +1,64 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+DRIPKIT_DIR="$(cd "$(dirname "$(readlink -f "${BASH_SOURCE[0]}")")/.." && pwd)"
+
+# Mod mask mapping
+declare -A MOD_NAMES=(
+    [1]="SHIFT"
+    [4]="CTRL"
+    [8]="ALT"
+    [64]="SUPER"
+    [65]="SUPER+SHIFT"
+    [68]="SUPER+CTRL"
+    [72]="SUPER+ALT"
+    [69]="SUPER+CTRL+SHIFT"
+    [0]=""
+)
+
+format_mod() {
+    local mask="$1"
+    local parts=()
+    if (( mask & 64 )); then parts+=("SUPER"); fi
+    if (( mask & 4 ));  then parts+=("CTRL"); fi
+    if (( mask & 8 ));  then parts+=("ALT"); fi
+    if (( mask & 1 ));  then parts+=("SHIFT"); fi
+    local IFS="+"
+    echo "${parts[*]}"
+}
+
+# Get all binds from Hyprland
+entries=""
+hyprctl binds -j 2>/dev/null | python3 -c "
+import json, sys
+
+binds = json.load(sys.stdin)
+
+# Group by category based on description patterns
+for b in binds:
+    desc = b.get('description', '').strip()
+    if not desc:
+        continue
+
+    key = b.get('key', '')
+    mod = int(b.get('modmask', 0))
+
+    # Build mod string
+    parts = []
+    if mod & 64: parts.append('SUPER')
+    if mod & 4:  parts.append('CTRL')
+    if mod & 8:  parts.append('ALT')
+    if mod & 1:  parts.append('SHIFT')
+
+    if parts:
+        combo = '+'.join(parts) + ' + ' + key
+    else:
+        combo = key
+
+    # Pad for alignment
+    print(f'{combo:<28} {desc}')
+" | rofi -dmenu -i \
+    -theme "$DRIPKIT_DIR/bin/keybinds-theme.rasi" \
+    -p "  Keybinds" \
+    -mesg "Press Escape to close" \
+    > /dev/null 2>&1 || true
