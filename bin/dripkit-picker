@@ -29,6 +29,11 @@ for d in "$THEMES_DIR"/*/; do
         fi
     done < "$d/theme.toml"
 
+    # Resolve relative wallpaper path
+    if [[ -n "$wallpaper" && ! "$wallpaper" == /* ]]; then
+        wallpaper="$d$wallpaper"
+    fi
+
     # Generate thumbnail if wallpaper exists
     thumb="$CACHE_DIR/$name.png"
     if [[ -n "$wallpaper" && -f "$wallpaper" ]]; then

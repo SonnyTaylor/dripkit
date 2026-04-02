@@ -176,6 +176,11 @@ cmd_apply() {
         done < "$theme_dir/theme.toml"
     fi
 
+    # Resolve relative wallpaper path
+    if [[ -n "${COLORS[wallpaper]:-}" && ! "${COLORS[wallpaper]}" == /* ]]; then
+        COLORS["wallpaper"]="$theme_dir/${COLORS[wallpaper]}"
+    fi
+
     # Apply each module
     for module_dir in "$MODULES_DIR"/*/; do
         local module="$(basename "$module_dir")"
