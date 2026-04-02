@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-DRIPKIT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+DRIPKIT_DIR="$(cd "$(dirname "$(readlink -f "${BASH_SOURCE[0]}")")/.." && pwd)"
 MODULES_DIR="$DRIPKIT_DIR/modules"
 THEMES_DIR="$DRIPKIT_DIR/themes"
 CONFIG_DIR="${XDG_CONFIG_HOME:-$HOME/.config}"
