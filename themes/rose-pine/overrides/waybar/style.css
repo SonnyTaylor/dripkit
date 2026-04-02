@@ -1,4 +1,4 @@
-/* dripkit — Rose Pine soft island waybar */
+/* dripkit — Rosé Pine: single centered capsule */
 
 * {
     font-family: "JetBrainsMono Nerd Font";
@@ -11,30 +11,42 @@
     margin: 0;
 }
 
-/* ---- Base ---- */
-
-window#waybar {
+#waybar {
     background: transparent;
     color: #e0def4;
 }
 
-/* ---- Islands ---- */
-
+/* All three sections share one continuous capsule look */
 .modules-left,
 .modules-center,
 .modules-right {
-    background: rgba(25, 23, 36, 0.88);
+    background: rgba(25, 23, 36, 0.9);
     border: 1px solid #26233a;
-    border-radius: 16px;
-    padding: 0 4px;
-    margin: 2px 4px;
-}
-
-/* ---- Left island: workspaces + window ---- */
-
-#workspaces {
+    margin: 0;
     padding: 0 4px;
 }
+
+/* Connect the three sections into one bar */
+.modules-left {
+    border-radius: 18px 0 0 18px;
+    border-right: none;
+    padding-left: 8px;
+}
+
+.modules-center {
+    border-radius: 0;
+    border-left: none;
+    border-right: none;
+}
+
+.modules-right {
+    border-radius: 0 18px 18px 0;
+    border-left: none;
+    padding-right: 8px;
+}
+
+/* Workspaces */
+#workspaces { padding: 0 4px; }
 
 #workspaces button {
     padding: 6px 10px;
@@ -42,14 +54,12 @@ window#waybar {
     border-radius: 12px;
     color: #6e6a86;
     background: transparent;
-    font-size: 13px;
-    font-weight: 600;
     transition: all 0.2s ease;
 }
 
 #workspaces button.active {
     color: #c4a7e7;
-    background: alpha(#c4a7e7, 0.18);
+    background: rgba(196, 167, 231, 0.15);
 }
 
 #workspaces button:hover {
@@ -59,123 +69,72 @@ window#waybar {
 
 #workspaces button.urgent {
     color: #eb6f92;
-    background: alpha(#eb6f92, 0.15);
+    background: rgba(235, 111, 146, 0.15);
 }
 
+/* Spacer */
 #custom-spacer {
-    padding: 0 2px;
-}
-
-#window {
-    color: #908caa;
-    padding: 6px 14px;
-    font-style: italic;
-    transition: all 0.2s ease;
-}
-
-/* ---- Center island: clock ---- */
-
-.modules-center {
-    padding: 0 6px;
-}
-
-#clock {
-    color: #e0def4;
-    font-weight: 700;
-    padding: 6px 20px;
-    letter-spacing: 0.5px;
-    transition: all 0.2s ease;
-}
-
-#clock:hover {
-    color: #ebbcba;
-}
-
-/* ---- Right island ---- */
-
-.modules-right {
+    color: #403d52;
     padding: 0 4px;
 }
 
-#backlight {
-    color: #f6c177;
+/* Window */
+#window {
+    color: #908caa;
     padding: 6px 12px;
-    margin: 3px 1px;
-    border-radius: 12px;
-    transition: all 0.2s ease;
+    font-style: italic;
 }
 
-#backlight:hover {
-    background: #1f1d2e;
+/* Divider between sections */
+#custom-spacer { font-size: 10px; }
+
+/* Clock */
+#clock {
+    color: #e0def4;
+    font-weight: 600;
+    padding: 6px 24px;
+}
+
+/* Right modules */
+#backlight {
+    color: #f6c177;
+    padding: 6px 10px;
 }
 
 #wireplumber {
     color: #c4a7e7;
-    padding: 6px 12px;
-    margin: 3px 1px;
-    border-radius: 12px;
-    transition: all 0.2s ease;
+    padding: 6px 10px;
 }
 
-#wireplumber:hover {
-    background: #1f1d2e;
-}
-
-#wireplumber.muted {
-    color: #6e6a86;
-}
+#wireplumber.muted { color: #6e6a86; }
 
 #battery {
     color: #9ccfd8;
-    padding: 6px 12px;
-    margin: 3px 1px;
-    border-radius: 12px;
-    transition: all 0.2s ease;
+    padding: 6px 10px;
 }
 
-#battery:hover {
-    background: #1f1d2e;
-}
-
-#battery.charging,
-#battery.plugged {
-    color: #31748f;
-}
-
-#battery.warning:not(.charging) {
-    color: #f6c177;
-}
-
+#battery.charging, #battery.plugged { color: #9ccfd8; }
+#battery.warning:not(.charging) { color: #f6c177; }
 #battery.critical:not(.charging) {
     color: #eb6f92;
     animation: pulse 1s ease infinite alternate;
 }
 
-@keyframes pulse {
-    to { color: #e0def4; }
-}
+@keyframes pulse { to { color: #e0def4; } }
 
 #tray {
-    padding: 6px 10px;
-    margin: 3px 1px;
     color: #908caa;
-    transition: all 0.2s ease;
+    padding: 6px 6px;
 }
 
-#tray > .passive {
-    -gtk-icon-effect: dim;
-}
-
-/* ---- Tooltip ---- */
+#tray > .passive { -gtk-icon-effect: dim; }
 
 tooltip {
-    background: rgba(25, 23, 36, 0.92);
+    background: #191724;
     border: 1px solid #26233a;
-    border-radius: 14px;
+    border-radius: 12px;
     color: #e0def4;
-    padding: 10px;
+    padding: 8px;
 }
 
-tooltip label {
-    color: #e0def4;
-}
+tooltip label { color: #e0def4; }

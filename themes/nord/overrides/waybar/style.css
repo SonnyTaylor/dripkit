@@ -1,19 +1,4 @@
-/* dripkit — Nord ultra-minimal waybar */
-
-@define-color bg        rgba(46, 52, 64, 0.8);
-@define-color surface0  #3b4252;
-@define-color surface1  #434c5e;
-@define-color surface2  #4c566a;
-@define-color overlay0  #616e88;
-@define-color fg        #eceff4;
-@define-color accent    #88c0d0;
-@define-color red       #bf616a;
-@define-color green     #a3be8c;
-@define-color yellow    #ebcb8b;
-@define-color mauve     #b48ead;
-@define-color teal      #8fbcbb;
-@define-color peach     #d08770;
-@define-color lavender  #81a1c1;
+/* dripkit — Nord: bare floating text, no backgrounds */
 
 * {
     font-family: "JetBrainsMono Nerd Font";
@@ -26,118 +11,71 @@
     margin: 0;
 }
 
-/* ---- Base ---- */
-
 #waybar {
     background: transparent;
-    color: @fg;
+    color: #d8dee9;
 }
 
-/* ---- Left island ---- */
-
-.modules-left {
-    background: @bg;
-    border-radius: 10px;
-    border: 1px solid @surface1;
-    padding: 0 2px;
-}
-
-#workspaces {
+.modules-left,
+.modules-center,
+.modules-right {
+    background: transparent;
+    border: none;
     padding: 0;
 }
 
+#workspaces { padding: 0 4px; }
+
 #workspaces button {
-    padding: 4px 6px;
-    margin: 2px 1px;
-    border-radius: 8px;
-    color: @overlay0;
+    padding: 6px 4px;
+    margin: 0 3px;
+    border-radius: 0;
+    color: #4c566a;
     background: transparent;
-    font-size: 10px;
+    font-size: 14px;
     transition: all 0.15s ease;
 }
 
 #workspaces button.active {
-    color: @accent;
+    color: #88c0d0;
 }
 
 #workspaces button:hover {
-    color: @fg;
+    color: #eceff4;
 }
 
 #workspaces button.urgent {
-    color: @red;
-}
-
-/* ---- Center island ---- */
-
-.modules-center {
-    background: @bg;
-    border-radius: 10px;
-    border: 1px solid @surface1;
+    color: #bf616a;
 }
 
 #clock {
-    color: @fg;
+    color: #eceff4;
     font-weight: 500;
-    padding: 4px 14px;
-    letter-spacing: 0.5px;
-}
-
-/* ---- Right island ---- */
-
-.modules-right {
-    background: @bg;
-    border-radius: 10px;
-    border: 1px solid @surface1;
-    padding: 0 2px;
+    padding: 6px 12px;
+    font-size: 12px;
 }
 
 #wireplumber {
-    color: @lavender;
-    padding: 4px 8px;
-    margin: 2px 0;
-    font-size: 12px;
+    color: #81a1c1;
+    padding: 6px 8px;
 }
 
-#wireplumber.muted {
-    color: @overlay0;
-}
+#wireplumber.muted { color: #4c566a; }
 
 #battery {
-    color: @green;
-    padding: 4px 8px;
-    margin: 2px 0;
-    font-size: 12px;
+    color: #a3be8c;
+    padding: 6px 8px;
 }
 
-#battery.charging,
-#battery.plugged {
-    color: @green;
-}
-
-#battery.warning:not(.charging) {
-    color: @yellow;
-}
-
-#battery.critical:not(.charging) {
-    color: @red;
-    animation: pulse 1.5s ease infinite alternate;
-}
-
-@keyframes pulse {
-    to { color: @overlay0; }
-}
-
-/* ---- Tooltip ---- */
+#battery.warning:not(.charging) { color: #ebcb8b; }
+#battery.critical:not(.charging) { color: #bf616a; }
 
 tooltip {
-    background: @bg;
-    border: 1px solid @surface1;
-    border-radius: 8px;
-    color: @fg;
+    background: rgba(46, 52, 64, 0.95);
+    border: 1px solid #434c5e;
+    border-radius: 6px;
+    color: #eceff4;
     padding: 6px;
 }
 
-tooltip label {
-    color: @fg;
-}
+tooltip label { color: #eceff4; }
