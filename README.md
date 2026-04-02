@@ -57,7 +57,7 @@ Each theme isn't just a palette swap. Themes ship unique waybar layouts, differe
 ## Installation
 
 ```bash
-git clone https://github.com/YOUR_USERNAME/dripkit.git ~/Code/dripkit
+git clone https://github.com/SonnyTaylor/dripkit.git ~/Code/dripkit
 cd ~/Code/dripkit
 ./install.sh
 ```
