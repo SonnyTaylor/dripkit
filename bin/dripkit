@@ -1,0 +1,247 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+DRIPKIT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+MODULES_DIR="$DRIPKIT_DIR/modules"
+THEMES_DIR="$DRIPKIT_DIR/themes"
+CONFIG_DIR="${XDG_CONFIG_HOME:-$HOME/.config}"
+STATE_FILE="$CONFIG_DIR/dripkit/active-theme"
+
+# --- Colors for output ---
+RED='\033[0;31m'
+GREEN='\033[0;32m'
+YELLOW='\033[0;33m'
+CYAN='\033[0;36m'
+BOLD='\033[1m'
+NC='\033[0m'
+
+info()  { echo -e "${CYAN}[dripkit]${NC} $*"; }
+ok()    { echo -e "${GREEN}[dripkit]${NC} $*"; }
+warn()  { echo -e "${YELLOW}[dripkit]${NC} $*"; }
+err()   { echo -e "${RED}[dripkit]${NC} $*" >&2; }
+
+# --- Parse colors.conf into associative array ---
+declare -A COLORS
+load_colors() {
+    local colors_file="$1"
+    [[ -f "$colors_file" ]] || { err "Colors file not found: $colors_file"; return 1; }
+    while IFS= read -r line; do
+        # Skip comments and blank lines
+        [[ "$line" =~ ^[[:space:]]*# ]] && continue
+        [[ -z "${line// /}" ]] && continue
+        # Parse key = value
+        if [[ "$line" =~ ^[[:space:]]*([a-zA-Z0-9_-]+)[[:space:]]*=[[:space:]]*(.*)[[:space:]]*$ ]]; then
+            local key="${BASH_REMATCH[1]}"
+            local val="${BASH_REMATCH[2]}"
+            COLORS["$key"]="$val"
+        fi
+    done < "$colors_file"
+}
+
+# --- Substitute {{var}} placeholders in a template ---
+render_template() {
+    local template_file="$1"
+    local output
+    output="$(cat "$template_file")"
+    for key in "${!COLORS[@]}"; do
+        output="${output//\{\{$key\}\}/${COLORS[$key]}}"
+    done
+    echo "$output"
+}
+
+# --- Apply a single module ---
+apply_module() {
+    local module="$1"
+    local theme_dir="$2"
+    local module_dir="$MODULES_DIR/$module"
+
+    [[ -d "$module_dir" ]] || { warn "Module not found: $module"; return 0; }
+
+    # Check for theme override first
+    local override_dir="$theme_dir/overrides/$module"
+    if [[ -d "$override_dir" ]]; then
+        info "Applying override for ${BOLD}$module${NC}"
+        # Module has an apply.sh — run it
+        if [[ -f "$module_dir/apply.sh" ]]; then
+            source "$module_dir/apply.sh" "$theme_dir" "$override_dir"
+        else
+            # Copy override files directly
+            for f in "$override_dir"/*; do
+                [[ -f "$f" ]] || continue
+                local basename="$(basename "$f")"
+                local target
+                target="$(get_module_target "$module" "$basename")"
+                mkdir -p "$(dirname "$target")"
+                cp "$f" "$target"
+            done
+        fi
+        return 0
+    fi
+
+    # Otherwise render templates
+    if [[ -f "$module_dir/apply.sh" ]]; then
+        source "$module_dir/apply.sh" "$theme_dir"
+    else
+        for tmpl in "$module_dir"/template.*; do
+            [[ -f "$tmpl" ]] || continue
+            local ext="${tmpl##*.template.}"
+            # Strip "template." prefix to get output filename
+            local outname="$(basename "$tmpl" | sed 's/^template\.//')"
+            local target
+            target="$(get_module_target "$module" "$outname")"
+            mkdir -p "$(dirname "$target")"
+            render_template "$tmpl" > "$target"
+        done
+    fi
+}
+
+# --- Map module + filename to target path in ~/.config ---
+get_module_target() {
+    local module="$1"
+    local filename="$2"
+    case "$module" in
+        hyprland)   echo "$CONFIG_DIR/hypr/config/dripkit.conf" ;;
+        waybar)
+            case "$filename" in
+                *.css)  echo "$CONFIG_DIR/waybar/style.css" ;;
+                *)      echo "$CONFIG_DIR/waybar/config" ;;
+            esac ;;
+        rofi)       echo "$CONFIG_DIR/rofi/dripkit.rasi" ;;
+        alacritty)  echo "$CONFIG_DIR/alacritty/dripkit.toml" ;;
+        dunst)      echo "$CONFIG_DIR/dunst/dunstrc" ;;
+        hyprlock)   echo "$CONFIG_DIR/hypr/hyprlock.conf" ;;
+        hyprpaper)  echo "$CONFIG_DIR/hypr/hyprpaper.conf" ;;
+        *)          echo "$CONFIG_DIR/$module/$filename" ;;
+    esac
+}
+
+# --- Restart affected services ---
+restart_services() {
+    # Waybar
+    if pgrep -x waybar &>/dev/null; then
+        killall waybar 2>/dev/null
+        waybar &disown 2>/dev/null
+        info "Restarted waybar"
+    fi
+    # Dunst
+    if pgrep -x dunst &>/dev/null; then
+        killall dunst 2>/dev/null
+        dunst &disown 2>/dev/null
+        info "Restarted dunst"
+    fi
+    # Hyprpaper
+    if pgrep -x hyprpaper &>/dev/null; then
+        killall hyprpaper 2>/dev/null
+        sleep 0.3
+        hyprpaper &disown 2>/dev/null
+        info "Restarted hyprpaper"
+    fi
+}
+
+# --- Save active theme ---
+save_state() {
+    mkdir -p "$(dirname "$STATE_FILE")"
+    echo "$1" > "$STATE_FILE"
+}
+
+# --- Get active theme ---
+get_active() {
+    [[ -f "$STATE_FILE" ]] && cat "$STATE_FILE" || echo ""
+}
+
+# --- Commands ---
+
+cmd_apply() {
+    local theme_name="${1:-}"
+    [[ -n "$theme_name" ]] || { err "Usage: dripkit apply <theme>"; return 1; }
+
+    local theme_dir="$THEMES_DIR/$theme_name"
+    [[ -d "$theme_dir" ]] || { err "Theme not found: $theme_name"; return 1; }
+
+    local colors_file="$theme_dir/colors.conf"
+    [[ -f "$colors_file" ]] || { err "No colors.conf in theme: $theme_name"; return 1; }
+
+    info "Applying theme: ${BOLD}$theme_name${NC}"
+
+    load_colors "$colors_file"
+
+    # Load theme.toml for extra vars (wallpaper path etc.)
+    if [[ -f "$theme_dir/theme.toml" ]]; then
+        while IFS= read -r line; do
+            [[ "$line" =~ ^[[:space:]]*# ]] && continue
+            [[ -z "${line// /}" ]] && continue
+            if [[ "$line" =~ ^[[:space:]]*([a-zA-Z0-9_-]+)[[:space:]]*=[[:space:]]*\"?([^\"]*)\"?[[:space:]]*$ ]]; then
+                COLORS["${BASH_REMATCH[1]}"]="${BASH_REMATCH[2]}"
+            fi
+        done < "$theme_dir/theme.toml"
+    fi
+
+    # Apply each module
+    for module_dir in "$MODULES_DIR"/*/; do
+        local module="$(basename "$module_dir")"
+        apply_module "$module" "$theme_dir"
+        ok "Applied ${BOLD}$module${NC}"
+    done
+
+    save_state "$theme_name"
+    restart_services
+
+    ok "Theme ${BOLD}$theme_name${NC} applied!"
+}
+
+cmd_list() {
+    local active
+    active="$(get_active)"
+    echo -e "${BOLD}Available themes:${NC}"
+    for d in "$THEMES_DIR"/*/; do
+        local name="$(basename "$d")"
+        if [[ "$name" == "$active" ]]; then
+            echo -e "  ${GREEN}* $name${NC} (active)"
+        else
+            echo -e "  $name"
+        fi
+    done
+}
+
+cmd_active() {
+    local active
+    active="$(get_active)"
+    if [[ -n "$active" ]]; then
+        echo "$active"
+    else
+        echo "No active theme"
+    fi
+}
+
+cmd_help() {
+    echo -e "${BOLD}dripkit${NC} — Hyprland theme framework"
+    echo ""
+    echo "Usage:"
+    echo "  dripkit apply <theme>    Apply a theme"
+    echo "  dripkit list             List available themes"
+    echo "  dripkit active           Show current theme"
+    echo "  dripkit picker           Launch rofi theme picker"
+    echo "  dripkit help             Show this help"
+}
+
+cmd_picker() {
+    local picker="$DRIPKIT_DIR/bin/dripkit-picker"
+    [[ -x "$picker" ]] || { err "Picker not found"; return 1; }
+    exec "$picker"
+}
+
+# --- Main ---
+main() {
+    local cmd="${1:-help}"
+    shift || true
+    case "$cmd" in
+        apply)  cmd_apply "$@" ;;
+        list)   cmd_list ;;
+        active) cmd_active ;;
+        picker) cmd_picker ;;
+        help|--help|-h) cmd_help ;;
+        *)      err "Unknown command: $cmd"; cmd_help ;;
+    esac
+}
+
+main "$@"

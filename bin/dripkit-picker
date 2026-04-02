@@ -1,0 +1,37 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+DRIPKIT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+THEMES_DIR="$DRIPKIT_DIR/themes"
+STATE_FILE="${XDG_CONFIG_HOME:-$HOME/.config}/dripkit/active-theme"
+
+active=""
+[[ -f "$STATE_FILE" ]] && active="$(cat "$STATE_FILE")"
+
+# Build theme list for rofi
+theme_list=""
+for d in "$THEMES_DIR"/*/; do
+    [[ -f "$d/theme.toml" ]] || continue
+    name="$(basename "$d")"
+    # Read description from theme.toml
+    desc=""
+    while IFS= read -r line; do
+        if [[ "$line" =~ ^description[[:space:]]*=[[:space:]]*\"(.*)\" ]]; then
+            desc="${BASH_REMATCH[1]}"
+            break
+        fi
+    done < "$d/theme.toml"
+    if [[ "$name" == "$active" ]]; then
+        theme_list+="  $name — $desc (active)\n"
+    else
+        theme_list+="  $name — $desc\n"
+    fi
+done
+
+# Show rofi picker
+chosen=$(echo -e "$theme_list" | rofi -dmenu -i -p "dripkit" -theme-str 'window {width: 500px;}' | sed 's/^[[:space:]]*//' | cut -d' ' -f1)
+
+[[ -n "$chosen" ]] || exit 0
+
+# Apply chosen theme
+exec "$DRIPKIT_DIR/bin/dripkit" apply "$chosen"

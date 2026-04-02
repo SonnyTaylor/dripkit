@@ -1,0 +1,56 @@
+# dripkit alacritty theme
+
+[font]
+size = 12.0
+
+[font.normal]
+family = "{{mono_font}}"
+style = "Regular"
+
+[font.bold]
+family = "{{mono_font}}"
+style = "Bold"
+
+[font.italic]
+family = "{{mono_font}}"
+style = "Italic"
+
+[window]
+opacity = {{terminal_opacity}}
+padding = { x = 12, y = 12 }
+
+[colors.primary]
+background = "{{bg}}"
+foreground = "{{fg}}"
+
+[colors.cursor]
+text = "{{bg}}"
+cursor = "{{accent}}"
+
+[colors.vi_mode_cursor]
+text = "{{bg}}"
+cursor = "{{accent2}}"
+
+[colors.selection]
+text = "{{bg}}"
+background = "{{accent}}"
+
+[colors.normal]
+black =   "{{color0}}"
+red =     "{{red}}"
+green =   "{{green}}"
+yellow =  "{{yellow}}"
+blue =    "{{blue}}"
+magenta = "{{mauve}}"
+cyan =    "{{teal}}"
+white =   "{{color7}}"
+
+[colors.bright]
+black =   "{{color8}}"
+red =     "{{red}}"
+green =   "{{green}}"
+yellow =  "{{yellow}}"
+blue =    "{{blue}}"
+magenta = "{{mauve}}"
+cyan =    "{{teal}}"
+white =   "{{fg}}"

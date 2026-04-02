@@ -1,0 +1,222 @@
+/* dripkit — Catppuccin Mocha island waybar */
+
+@define-color bg        rgba(30, 30, 46, 0.88);
+@define-color surface0  #313244;
+@define-color surface1  #45475a;
+@define-color surface2  #585b70;
+@define-color overlay0  #6c7086;
+@define-color fg        #cdd6f4;
+@define-color subtext0  #a6adc8;
+@define-color accent    #89b4fa;
+@define-color red       #f38ba8;
+@define-color green     #a6e3a1;
+@define-color yellow    #f9e2af;
+@define-color peach     #fab387;
+@define-color mauve     #cba6f7;
+@define-color teal      #94e2d5;
+@define-color lavender  #b4befe;
+
+* {
+    font-family: "JetBrainsMono Nerd Font";
+    font-size: 14px;
+    font-weight: 500;
+    border: none;
+    border-radius: 0;
+    min-height: 0;
+    padding: 0;
+    margin: 0;
+}
+
+/* ---- Base ---- */
+
+#waybar {
+    background: transparent;
+    color: @fg;
+}
+
+/* ---- Left island ---- */
+
+.modules-left {
+    background: @bg;
+    border-radius: 14px;
+    border: 1px solid @surface1;
+    padding: 0 2px;
+}
+
+#custom-logo {
+    color: @accent;
+    font-size: 18px;
+    padding: 6px 8px 6px 10px;
+    margin: 0;
+}
+
+#custom-logo:hover {
+    color: @lavender;
+}
+
+#workspaces {
+    padding: 0 6px 0 0;
+}
+
+#workspaces button {
+    padding: 6px 10px;
+    margin: 3px 2px;
+    border-radius: 10px;
+    color: @overlay0;
+    background: transparent;
+    font-size: 13px;
+    transition: all 0.15s ease;
+}
+
+#workspaces button.active {
+    color: @accent;
+    background: alpha(@accent, 0.18);
+}
+
+#workspaces button:hover {
+    color: @fg;
+    background: @surface0;
+}
+
+#workspaces button.urgent {
+    color: @red;
+    background: alpha(@red, 0.15);
+}
+
+/* ---- Center island ---- */
+
+.modules-center {
+    background: @bg;
+    border-radius: 14px;
+    border: 1px solid @surface1;
+}
+
+#clock {
+    color: @fg;
+    font-weight: 700;
+    padding: 6px 20px;
+}
+
+/* ---- Right island ---- */
+
+.modules-right {
+    background: @bg;
+    border-radius: 14px;
+    border: 1px solid @surface1;
+    padding: 0 4px;
+}
+
+/* Separators */
+#custom-sep,
+#custom-sep#2,
+#custom-sep#3,
+#custom-sep#4,
+#custom-sep#5 {
+    color: @surface2;
+    font-size: 11px;
+    padding: 0 2px;
+    margin: 6px 0;
+}
+
+/* Modules */
+#cpu {
+    color: @red;
+    padding: 6px 10px;
+    margin: 3px 0;
+}
+
+#memory {
+    color: @yellow;
+    padding: 6px 10px;
+    margin: 3px 0;
+}
+
+#temperature {
+    color: @peach;
+    padding: 6px 10px;
+    margin: 3px 0;
+}
+
+#temperature.critical {
+    color: @red;
+    font-weight: 700;
+}
+
+#backlight {
+    color: @teal;
+    padding: 6px 10px;
+    margin: 3px 0;
+}
+
+#wireplumber {
+    color: @mauve;
+    padding: 6px 10px;
+    margin: 3px 0;
+}
+
+#wireplumber.muted {
+    color: @overlay0;
+}
+
+#battery {
+    color: @green;
+    padding: 6px 10px;
+    margin: 3px 0;
+    border-left: 1px solid @surface2;
+    margin-left: 4px;
+    padding-left: 14px;
+}
+
+#battery.charging,
+#battery.plugged {
+    color: @green;
+}
+
+#battery.warning:not(.charging) {
+    color: @yellow;
+}
+
+#battery.critical:not(.charging) {
+    color: @red;
+    animation: pulse 1s ease infinite alternate;
+}
+
+@keyframes pulse {
+    to { color: @fg; }
+}
+
+#tray {
+    padding: 6px 6px;
+    margin: 3px 0;
+    color: @subtext0;
+}
+
+#tray > .passive {
+    -gtk-icon-effect: dim;
+}
+
+#custom-power {
+    color: @red;
+    padding: 6px 12px 6px 8px;
+    margin: 3px 0;
+    font-size: 15px;
+    transition: all 0.2s ease;
+}
+
+#custom-power:hover {
+    color: @fg;
+}
+
+/* ---- Tooltip ---- */
+
+tooltip {
+    background: @bg;
+    border: 1px solid @surface1;
+    border-radius: 12px;
+    color: @fg;
+    padding: 8px;
+}
+
+tooltip label {
+    color: @fg;
+}

@@ -1,0 +1,123 @@
+/* dripkit waybar theme */
+
+* {
+    font-family: "{{font}}", "{{mono_font}}", "Font Awesome 6 Free";
+    font-size: 13px;
+    font-weight: 600;
+    border: none;
+    border-radius: 0;
+    min-height: 0;
+}
+
+#waybar {
+    background: transparent;
+    color: {{fg}};
+}
+
+/* --- Left modules --- */
+
+#workspaces {
+    background: {{bg}};
+    border-radius: 12px;
+    padding: 2px 4px;
+    margin: 4px 4px;
+}
+
+#workspaces button {
+    padding: 2px 8px;
+    margin: 2px 2px;
+    border-radius: 8px;
+    color: {{overlay0}};
+    background: transparent;
+    transition: all 0.2s ease;
+}
+
+#workspaces button.active {
+    color: {{bg}};
+    background: {{accent}};
+}
+
+#workspaces button:hover {
+    color: {{fg}};
+    background: {{surface1}};
+}
+
+#workspaces button.urgent {
+    color: {{bg}};
+    background: {{red}};
+}
+
+#window {
+    background: {{bg}};
+    color: {{subtext0}};
+    border-radius: 12px;
+    padding: 2px 12px;
+    margin: 4px 4px;
+}
+
+/* --- Center modules --- */
+
+#clock {
+    background: {{bg}};
+    color: {{fg}};
+    border-radius: 12px;
+    padding: 2px 16px;
+    margin: 4px 4px;
+    font-weight: 700;
+}
+
+/* --- Right modules --- */
+
+#cpu,
+#memory,
+#temperature,
+#backlight,
+#wireplumber,
+#battery,
+#tray,
+#custom-power {
+    background: {{bg}};
+    border-radius: 12px;
+    padding: 2px 10px;
+    margin: 4px 2px;
+}
+
+#cpu { color: {{red}}; }
+#memory { color: {{yellow}}; }
+#temperature { color: {{peach}}; }
+#temperature.critical { color: {{red}}; background: {{surface0}}; }
+#backlight { color: {{teal}}; }
+#wireplumber { color: {{mauve}}; }
+
+#battery { color: {{green}}; }
+#battery.charging, #battery.plugged { color: {{green}}; }
+#battery.warning { color: {{yellow}}; }
+#battery.critical:not(.charging) {
+    color: {{red}};
+    animation: blink 0.5s linear infinite alternate;
+}
+
+@keyframes blink {
+    to { color: {{fg}}; }
+}
+
+#tray {
+    color: {{subtext0}};
+}
+
+#custom-power {
+    color: {{red}};
+    padding: 2px 8px;
+}
+
+#custom-power:hover {
+    background: {{red}};
+    color: {{bg}};
+}
+
+tooltip {
+    background: {{bg}};
+    border: 1px solid {{surface1}};
+    border-radius: 8px;
+    color: {{fg}};
+}
