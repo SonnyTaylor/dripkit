@@ -1,0 +1,184 @@
+/* dripkit — Horizon sunset gradient waybar */
+
+* {
+    font-family: "JetBrainsMono Nerd Font";
+    font-size: 14px;
+    font-weight: 500;
+    border: none;
+    border-radius: 0;
+    min-height: 0;
+    padding: 0;
+    margin: 0;
+}
+
+/* ---- Base ---- */
+
+#waybar {
+    background: transparent;
+    color: #d5d8da;
+}
+
+/* ---- Left island (warm accent) ---- */
+
+.modules-left {
+    background: rgba(28, 30, 38, 0.88);
+    border-radius: 14px;
+    border: 1px solid #2e303e;
+    border-bottom: 2px solid #f09383;
+    padding: 0 2px;
+}
+
+#custom-logo {
+    color: #f09383;
+    font-size: 18px;
+    padding: 6px 8px 6px 10px;
+    margin: 0;
+}
+
+#custom-logo:hover {
+    color: #fab795;
+}
+
+#workspaces {
+    padding: 0 6px 0 0;
+}
+
+#workspaces button {
+    padding: 6px 10px;
+    margin: 3px 2px;
+    border-radius: 10px;
+    color: #6c6f93;
+    background: transparent;
+    font-size: 13px;
+    transition: all 0.15s ease;
+}
+
+#workspaces button.active {
+    color: #f09383;
+    background: alpha(#f09383, 0.18);
+}
+
+#workspaces button:hover {
+    color: #d5d8da;
+    background: #232530;
+}
+
+#workspaces button.urgent {
+    color: #e95678;
+    background: alpha(#e95678, 0.15);
+}
+
+/* ---- Center island (pink transition) ---- */
+
+.modules-center {
+    background: rgba(28, 30, 38, 0.88);
+    border-radius: 14px;
+    border: 1px solid #2e303e;
+    border-bottom: 2px solid #ee64ac;
+}
+
+#clock {
+    color: #d5d8da;
+    font-weight: 700;
+    padding: 6px 20px;
+}
+
+/* ---- Right island (cool accent) ---- */
+
+.modules-right {
+    background: rgba(28, 30, 38, 0.88);
+    border-radius: 14px;
+    border: 1px solid #2e303e;
+    border-bottom: 2px solid #26bbd9;
+    padding: 0 4px;
+}
+
+/* Separators */
+#custom-sep,
+#custom-sep#2,
+#custom-sep#3 {
+    color: #3d3f4e;
+    font-size: 11px;
+    padding: 0 2px;
+    margin: 6px 0;
+}
+
+/* Modules — right island uses cool-to-warm gradient per module */
+#backlight {
+    color: #fab795;
+    padding: 6px 10px;
+    margin: 3px 0;
+}
+
+#wireplumber {
+    color: #b877db;
+    padding: 6px 10px;
+    margin: 3px 0;
+}
+
+#wireplumber.muted {
+    color: #6c6f93;
+}
+
+#battery {
+    color: #29d398;
+    padding: 6px 10px;
+    margin: 3px 0;
+    border-left: 1px solid #3d3f4e;
+    margin-left: 4px;
+    padding-left: 14px;
+}
+
+#battery.charging,
+#battery.plugged {
+    color: #29d398;
+}
+
+#battery.warning:not(.charging) {
+    color: #fab795;
+}
+
+#battery.critical:not(.charging) {
+    color: #e95678;
+    animation: pulse 1s ease infinite alternate;
+}
+
+@keyframes pulse {
+    to { color: #d5d8da; }
+}
+
+#tray {
+    padding: 6px 6px;
+    margin: 3px 0;
+    color: #b0b2bf;
+}
+
+#tray > .passive {
+    -gtk-icon-effect: dim;
+}
+
+#custom-power {
+    color: #e95678;
+    padding: 6px 12px 6px 8px;
+    margin: 3px 0;
+    font-size: 15px;
+    transition: all 0.2s ease;
+}
+
+#custom-power:hover {
+    color: #d5d8da;
+}
+
+/* ---- Tooltip ---- */
+
+tooltip {
+    background: rgba(28, 30, 38, 0.88);
+    border: 1px solid #2e303e;
+    border-radius: 12px;
+    color: #d5d8da;
+    padding: 8px;
+}
+
+tooltip label {
+    color: #d5d8da;
+}

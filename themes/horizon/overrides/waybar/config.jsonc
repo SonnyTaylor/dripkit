@@ -1,0 +1,90 @@
+{
+    "layer": "top",
+    "position": "top",
+    "margin-top": 8,
+    "margin-left": 12,
+    "margin-right": 12,
+    "spacing": 0,
+    "modules-left": [
+        "custom/logo",
+        "hyprland/workspaces"
+    ],
+    "modules-center": [
+        "clock"
+    ],
+    "modules-right": [
+        "backlight",
+        "custom/sep",
+        "wireplumber",
+        "custom/sep#2",
+        "battery",
+        "custom/sep#3",
+        "custom/power"
+    ],
+    "custom/logo": {
+        "format": "",
+        "tooltip": false,
+        "on-click": "rofi -show drun -theme ~/.config/rofi/dripkit.rasi"
+    },
+    "hyprland/workspaces": {
+        "format": "{name}",
+        "on-scroll-up": "hyprctl dispatch workspace e+1 1>/dev/null",
+        "on-scroll-down": "hyprctl dispatch workspace e-1 1>/dev/null",
+        "sort-by-number": true,
+        "active-only": false,
+        "persistent-workspaces": {
+            "*": 5
+        }
+    },
+    "clock": {
+        "format": "  {:%H:%M}",
+        "format-alt": "  {:%A, %B %d}",
+        "tooltip-format": "<big>{:%Y %B}</big>\n<tt><small>{calendar}</small></tt>"
+    },
+    "custom/sep": {
+        "format": "|",
+        "tooltip": false
+    },
+    "custom/sep#2": {
+        "format": "|",
+        "tooltip": false
+    },
+    "custom/sep#3": {
+        "format": "|",
+        "tooltip": false
+    },
+    "backlight": {
+        "format": " {percent}%",
+        "on-scroll-down": "brightnessctl s 5%-",
+        "on-scroll-up": "brightnessctl s +5%"
+    },
+    "wireplumber": {
+        "format": " {volume}%",
+        "format-muted": " mute",
+        "on-click": "pavucontrol",
+        "on-click-right": "amixer sset Master toggle 1>/dev/null"
+    },
+    "battery": {
+        "interval": 10,
+        "states": {
+            "good": 95,
+            "warning": 30,
+            "critical": 15
+        },
+        "format": "{icon} {capacity}%",
+        "format-charging": " {capacity}%",
+        "format-plugged": " {capacity}%",
+        "format-icons": [
+            "",
+            "",
+            "",
+            "",
+            ""
+        ]
+    },
+    "custom/power": {
+        "format": "",
+        "tooltip": false,
+        "on-click": "wlogout"
+    }
+}

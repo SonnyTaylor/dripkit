@@ -1,0 +1,129 @@
+/* dripkit — Solarized Dark classic status line */
+
+* {
+    font-family: "JetBrainsMono Nerd Font";
+    font-size: 13px;
+    font-weight: 500;
+    border: none;
+    border-radius: 0;
+    min-height: 0;
+    padding: 0;
+    margin: 0;
+}
+
+/* ---- Base ---- */
+
+#waybar {
+    background: #073642;
+    color: #839496;
+    border-top: 1px solid #586e75;
+}
+
+/* ---- Left: workspaces ---- */
+
+.modules-left {
+    background: transparent;
+    border-radius: 0;
+    padding: 0;
+}
+
+#workspaces {
+    padding: 0;
+}
+
+#workspaces button {
+    padding: 4px 2px;
+    margin: 0;
+    border-radius: 0;
+    color: #586e75;
+    background: transparent;
+    font-size: 13px;
+    transition: none;
+}
+
+#workspaces button.active {
+    color: #b58900;
+    background: transparent;
+}
+
+#workspaces button:hover {
+    color: #93a1a1;
+    background: transparent;
+}
+
+#workspaces button.urgent {
+    color: #dc322f;
+    background: transparent;
+}
+
+/* ---- Center ---- */
+
+.modules-center {
+    background: transparent;
+    border-radius: 0;
+}
+
+/* ---- Right: status modules ---- */
+
+.modules-right {
+    background: transparent;
+    border-radius: 0;
+    padding: 0 4px;
+}
+
+/* Separators */
+#custom-sep,
+#custom-sep#2,
+#custom-sep#3 {
+    color: #586e75;
+    font-size: 13px;
+    padding: 0 4px;
+}
+
+#cpu {
+    color: #2aa198;
+    padding: 4px 6px;
+}
+
+#memory {
+    color: #268bd2;
+    padding: 4px 6px;
+}
+
+#battery {
+    color: #859900;
+    padding: 4px 6px;
+}
+
+#battery.charging,
+#battery.plugged {
+    color: #859900;
+}
+
+#battery.warning:not(.charging) {
+    color: #b58900;
+}
+
+#battery.critical:not(.charging) {
+    color: #dc322f;
+}
+
+#clock {
+    color: #93a1a1;
+    font-weight: 700;
+    padding: 4px 8px;
+}
+
+/* ---- Tooltip ---- */
+
+tooltip {
+    background: #002b36;
+    border: 1px solid #586e75;
+    border-radius: 0;
+    color: #839496;
+    padding: 4px 8px;
+}
+
+tooltip label {
+    color: #839496;
+}
