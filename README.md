@@ -1,29 +1,48 @@
 # dripkit
 
-A theme framework for Hyprland. Define a color palette and a wallpaper, and dripkit applies it across your entire desktop — Hyprland, waybar, rofi, alacritty, dunst, hyprlock, hyprpaper, GTK, and Qt.
+A theme framework for Hyprland. Switch your entire desktop — bar layout, colors, wallpaper, terminal, launcher, notifications, lock screen, shell prompt — with one command.
 
-Themes are simple config files. The framework does the wiring.
+Each theme isn't just a palette swap. Themes ship unique waybar layouts, different animation styles, and distinct vibes.
 
 ## Features
 
-- **Template-based** — themes define colors, the framework renders configs for every app
-- **Module system** — each app (waybar, rofi, alacritty, etc.) is a separate module. Enable or disable what you want.
-- **Override system** — themes can ship custom configs for any module (e.g. a unique waybar layout per theme)
-- **Rofi picker** — `SUPER+T` opens a GUI theme selector with wallpaper previews
+- **17 modules** — themes every visible app on your desktop
+- **Override system** — each theme can ship unique configs per app (custom waybar layouts, rofi styles, etc.)
+- **Rofi picker** — `SUPER+T` opens a GUI theme selector with wallpaper thumbnails
+- **Keybinds cheat sheet** — `SUPER+F1` shows all keybinds in a searchable overlay
 - **CLI** — `dripkit apply tokyo-night` from the terminal
-- **AI-friendly** — clean, well-structured files that are trivially easy to modify with Claude Code or any AI assistant. Describe a vibe, get a rice.
+- **Atomic installer** — backs up configs, rolls back on failure, clean uninstall
+- **AI-friendly** — clean structure that works great with Claude Code. Describe a vibe, get a rice.
 
-## What each theme controls
+## Included themes
+
+| Theme | Vibe | Bar style |
+|-------|------|-----------|
+| **Catppuccin Mocha** | Soothing pastels | Three floating islands |
+| **Tokyo Night** | Cyberpunk minimal | Thin HUD line at bottom |
+| **Gruvbox Dark** | Warm retro cozy | Solid full-width, info-dense |
+| **Nord** | Arctic clean | Bare floating text, no backgrounds |
+| **Rose Pine** | Soft aesthetic | Single rounded capsule |
+
+## What gets themed
 
 | Module | What changes |
 |--------|-------------|
 | Hyprland | Borders, gaps, rounding, blur, shadows, animations, colors |
-| Waybar | Full bar styling — layout, colors, modules, CSS |
-| Rofi | Launcher theme — colors, layout, border radius |
+| Waybar | Full bar — layout, position, modules, CSS |
+| Rofi | Launcher colors, layout, border radius |
 | Alacritty | 16-color palette, font, opacity, padding |
+| Starship | Prompt colors, segments, symbols |
+| Fish | Syntax highlighting, autosuggestion, pager colors |
 | Dunst | Notification colors, border, rounding, font |
-| Hyprlock | Lock screen — background, clock, input field styling |
+| Hyprlock | Lock screen — background, clock, input field |
 | Hyprpaper | Wallpaper |
+| Wlogout | Power menu colors, hover states |
+| Fastfetch | System info layout with themed icons |
+| btop | System monitor color scheme |
+| Cava | Audio visualizer gradient colors |
+| bat | Syntax highlighting theme |
+| fzf | Fuzzy finder colors |
 | GTK | Theme, icons, cursor, font |
 | Qt | Kvantum theme, icon theme |
 
@@ -35,49 +54,54 @@ cd ~/Code/dripkit
 ./install.sh
 ```
 
+The installer will:
+1. Check dependencies
+2. Back up your existing configs
+3. Wire dripkit into Hyprland, Alacritty, and Rofi
+4. Add `dripkit` to your PATH
+5. Apply your chosen theme
+
+Flags:
+- `./install.sh` — interactive (default)
+- `./install.sh --auto` — no prompts
+- `./install.sh --dry-run` — show what would change without doing it
+- `./install.sh --uninstall` — restore backups and remove dripkit
+
 ## Dependencies
 
-- Hyprland
-- waybar
-- rofi-wayland
-- alacritty
-- dunst
-- hyprpaper
-- hyprlock (optional)
-- imagemagick (for wallpaper thumbnails in the picker)
-
-On Arch/CachyOS:
+Required:
 ```bash
-sudo pacman -S hyprland waybar rofi-wayland alacritty dunst hyprpaper hyprlock imagemagick
+sudo pacman -S hyprland waybar rofi-wayland alacritty dunst hyprpaper imagemagick
+```
+
+Optional (for full theming):
+```bash
+sudo pacman -S hyprlock wlogout cava fastfetch btop bat fzf starship
 ```
 
 ## Usage
 
 ```bash
-# Apply a theme
-dripkit apply catppuccin-mocha
-
-# List available themes
-dripkit list
-
-# Show current theme
-dripkit active
-
-# Open the rofi theme picker
-dripkit picker
-# or press SUPER+T
+dripkit apply catppuccin-mocha    # apply a theme
+dripkit list                       # list available themes
+dripkit active                     # show current theme
+dripkit picker                     # open rofi theme picker
 ```
+
+Keybinds:
+- `SUPER + T` — theme picker
+- `SUPER + F1` — keybinds cheat sheet
 
 ## Creating a theme
 
-A theme is a folder in `themes/` with at minimum two files:
+A theme is a folder in `themes/` with two required files:
 
 ```
 themes/my-theme/
-├── theme.toml      # name, description, wallpaper path
-├── colors.conf     # color palette + settings
-├── wallpapers/     # optional wallpaper files
-└── overrides/      # optional full config overrides per module
+├── theme.toml          # metadata
+├── colors.conf         # color palette + settings
+├── wallpapers/         # bundled wallpapers
+└── overrides/          # optional per-module overrides
     └── waybar/
         ├── config.jsonc
         └── style.css
@@ -85,10 +109,10 @@ themes/my-theme/
 
 ### colors.conf
 
-Define your palette and settings. These variables get substituted into every module template:
+Every variable here gets substituted into module templates via `{{variable_name}}`:
 
 ```conf
-# Colors (used in waybar CSS, rofi, alacritty, dunst)
+# Base colors
 bg = #1e1e2e
 fg = #cdd6f4
 accent = #89b4fa
@@ -104,30 +128,29 @@ bg_rgb = 1e1e2e
 gaps_in = 5
 gaps_out = 12
 rounding = 10
-blur_size = 12
 
 # Fonts
 font = Fira Sans
 mono_font = JetBrainsMono Nerd Font
 ```
 
+Copy an existing theme's `colors.conf` as a starting point — it has all required variables.
+
 ### theme.toml
 
 ```toml
 name = "My Theme"
-description = "A cool theme"
+description = "Short description"
 author = "you"
 variant = "dark"
-wallpaper = "/path/to/wallpaper.jpg"
+wallpaper = "wallpapers/my-wallpaper.jpg"
 ```
+
+Wallpaper paths are relative to the theme directory.
 
 ### Overrides
 
-If the template output isn't enough for a module, drop full config files in `overrides/<module>/`. These are copied directly instead of rendering the template. Great for custom waybar layouts.
-
-## Included themes
-
-- **Catppuccin Mocha** — Soothing pastel theme with island-style waybar
+Drop full config files in `overrides/<module>/` to bypass templates. The file gets copied directly instead of rendered. This is how themes ship unique waybar layouts.
 
 ## Project structure
 
@@ -136,39 +159,43 @@ dripkit/
 ├── bin/
 │   ├── dripkit              # main CLI
 │   ├── dripkit-picker       # rofi GUI picker
+│   ├── dripkit-keybinds     # keybinds cheat sheet
 │   └── picker-theme.rasi    # picker styling
-├── modules/                 # app templates
-│   ├── hyprland/template.conf
-│   ├── waybar/template.{config.jsonc,style.css}
-│   ├── rofi/template.rasi
-│   ├── alacritty/template.toml
-│   ├── dunst/template.conf
-│   ├── hyprlock/template.conf
-│   ├── hyprpaper/template.conf
-│   ├── gtk/apply.sh
-│   └── qt/apply.sh
-└── themes/
-    └── catppuccin-mocha/
-        ├── theme.toml
-        ├── colors.conf
-        └── overrides/waybar/
+├── modules/                 # 17 app templates
+│   ├── hyprland/     ├── waybar/
+│   ├── rofi/         ├── alacritty/
+│   ├── dunst/        ├── hyprlock/
+│   ├── hyprpaper/    ├── wlogout/
+│   ├── fastfetch/    ├── cava/
+│   ├── starship/     ├── fish/
+│   ├── btop/         ├── bat/
+│   ├── fzf/          ├── gtk/
+│   └── qt/
+├── themes/
+│   ├── catppuccin-mocha/
+│   ├── tokyo-night/
+│   ├── gruvbox-dark/
+│   ├── nord/
+│   └── rose-pine/
+├── install.sh
+└── CLAUDE.md
 ```
 
 ## Works great with AI
 
-dripkit is designed to be easily modified by AI coding assistants. With Claude Code:
+dripkit's structure is designed to be readable and modifiable by AI coding assistants:
 
 ```
-> add a tokyo night theme to dripkit
-> make the waybar more minimal
-> change the accent color to pink
+> add a dracula theme to dripkit
+> make the waybar show network speed
+> change the accent color to pink and make gaps bigger
 ```
 
-The clean file structure means the AI can read, understand, and modify themes without guessing.
+The clean file layout means Claude Code can read, understand, and modify themes without guessing.
 
 ## Contributing
 
-PRs welcome — especially new themes. See the theme creation guide above.
+PRs welcome — especially new themes and module templates.
 
 ## License
 
