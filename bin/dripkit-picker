@@ -3,33 +3,59 @@ set -euo pipefail
 
 DRIPKIT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 THEMES_DIR="$DRIPKIT_DIR/themes"
+CACHE_DIR="${XDG_CACHE_HOME:-$HOME/.cache}/dripkit/thumbs"
 STATE_FILE="${XDG_CONFIG_HOME:-$HOME/.config}/dripkit/active-theme"
+
+mkdir -p "$CACHE_DIR"
 
 active=""
 [[ -f "$STATE_FILE" ]] && active="$(cat "$STATE_FILE")"
 
-# Build theme list for rofi
-theme_list=""
+# Generate thumbnails and build rofi entries
+entries=""
 for d in "$THEMES_DIR"/*/; do
     [[ -f "$d/theme.toml" ]] || continue
     name="$(basename "$d")"
-    # Read description from theme.toml
-    desc=""
+
+    # Read metadata from theme.toml
+    desc="" wallpaper="" variant=""
     while IFS= read -r line; do
         if [[ "$line" =~ ^description[[:space:]]*=[[:space:]]*\"(.*)\" ]]; then
             desc="${BASH_REMATCH[1]}"
-            break
+        elif [[ "$line" =~ ^wallpaper[[:space:]]*=[[:space:]]*\"(.*)\" ]]; then
+            wallpaper="${BASH_REMATCH[1]}"
+        elif [[ "$line" =~ ^variant[[:space:]]*=[[:space:]]*\"(.*)\" ]]; then
+            variant="${BASH_REMATCH[1]}"
         fi
     done < "$d/theme.toml"
-    if [[ "$name" == "$active" ]]; then
-        theme_list+="  $name — $desc (active)\n"
+
+    # Generate thumbnail if wallpaper exists
+    thumb="$CACHE_DIR/$name.png"
+    if [[ -n "$wallpaper" && -f "$wallpaper" ]]; then
+        if [[ ! -f "$thumb" || "$wallpaper" -nt "$thumb" ]]; then
+            magick "$wallpaper" -resize 200x120^ -gravity center -extent 200x120 \
+                PNG:"$thumb" 2>/dev/null || true
+        fi
+    fi
+
+    # Build display string
+    label="$name"
+    [[ "$name" == "$active" ]] && label="$name  ●"
+
+    if [[ -f "$thumb" ]]; then
+        entries+="$label\x00icon\x1f$thumb\x00meta\x1f$desc $variant\n"
     else
-        theme_list+="  $name — $desc\n"
+        entries+="$label\x00meta\x1f$desc $variant\n"
     fi
 done
 
 # Show rofi picker
-chosen=$(echo -e "$theme_list" | rofi -dmenu -i -p "dripkit" -theme-str 'window {width: 500px;}' | sed 's/^[[:space:]]*//' | cut -d' ' -f1)
+chosen=$(echo -en "$entries" | rofi -dmenu -i \
+    -theme "$DRIPKIT_DIR/bin/picker-theme.rasi" \
+    -p "  dripkit" \
+    -mesg "Select a theme to apply" \
+    -show-icons \
+    | sed 's/  ●$//')
 
 [[ -n "$chosen" ]] || exit 0
 
