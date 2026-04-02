@@ -122,11 +122,13 @@ get_module_target() {
         hyprpaper)  echo "$CONFIG_DIR/hypr/hyprpaper.conf" ;;
         cava)       echo "$CONFIG_DIR/cava/config" ;;
         fastfetch)  echo "$CONFIG_DIR/fastfetch/config.jsonc" ;;
+        starship)   echo "$CONFIG_DIR/starship.toml" ;;
         wlogout)
             case "$filename" in
                 *.css)  echo "$CONFIG_DIR/wlogout/style.css" ;;
                 *)      echo "$CONFIG_DIR/wlogout/layout" ;;
             esac ;;
+        # fish, btop, bat, fzf use apply.sh scripts
         *)          echo "$CONFIG_DIR/$module/$filename" ;;
     esac
 }
