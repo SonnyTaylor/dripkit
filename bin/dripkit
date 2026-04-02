@@ -36,6 +36,15 @@ load_colors() {
             COLORS["$key"]="$val"
         fi
     done < "$colors_file"
+
+    # Auto-generate _nohash variants (strip # from hex colors)
+    local -a keys=("${!COLORS[@]}")
+    for key in "${keys[@]}"; do
+        local val="${COLORS[$key]}"
+        if [[ "$val" =~ ^#[0-9a-fA-F]{6}$ ]]; then
+            COLORS["${key}_nohash"]="${val#\#}"
+        fi
+    done
 }
 
 # --- Substitute {{var}} placeholders in a template ---
@@ -111,6 +120,13 @@ get_module_target() {
         dunst)      echo "$CONFIG_DIR/dunst/dunstrc" ;;
         hyprlock)   echo "$CONFIG_DIR/hypr/hyprlock.conf" ;;
         hyprpaper)  echo "$CONFIG_DIR/hypr/hyprpaper.conf" ;;
+        cava)       echo "$CONFIG_DIR/cava/config" ;;
+        fastfetch)  echo "$CONFIG_DIR/fastfetch/config.jsonc" ;;
+        wlogout)
+            case "$filename" in
+                *.css)  echo "$CONFIG_DIR/wlogout/style.css" ;;
+                *)      echo "$CONFIG_DIR/wlogout/layout" ;;
+            esac ;;
         *)          echo "$CONFIG_DIR/$module/$filename" ;;
     esac
 }

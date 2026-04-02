@@ -1,0 +1,78 @@
+/* dripkit wlogout theme */
+
+* {
+    background-image: none;
+    box-shadow: none;
+    font-family: "{{mono_font}}";
+    font-size: 14px;
+}
+
+window {
+    background-color: rgba({{bg_rgb}}, 0.85);
+}
+
+button {
+    border-radius: 16px;
+    border: 2px solid {{surface1}};
+    color: {{fg}};
+    background-color: {{surface0}};
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: 25%;
+    margin: 8px;
+    transition: all 0.2s ease;
+}
+
+button:focus,
+button:active,
+button:hover {
+    background-color: {{accent}};
+    color: {{bg}};
+    border-color: {{accent}};
+    outline-style: none;
+}
+
+#lock {
+    background-image: image(url("/usr/share/wlogout/icons/lock.png"));
+}
+
+#lock:hover {
+    background-color: {{green}};
+    border-color: {{green}};
+}
+
+#logout {
+    background-image: image(url("/usr/share/wlogout/icons/logout.png"));
+}
+
+#logout:hover {
+    background-color: {{yellow}};
+    border-color: {{yellow}};
+}
+
+#suspend {
+    background-image: image(url("/usr/share/wlogout/icons/suspend.png"));
+}
+
+#suspend:hover {
+    background-color: {{mauve}};
+    border-color: {{mauve}};
+}
+
+#shutdown {
+    background-image: image(url("/usr/share/wlogout/icons/shutdown.png"));
+}
+
+#shutdown:hover {
+    background-color: {{red}};
+    border-color: {{red}};
+}
+
+#reboot {
+    background-image: image(url("/usr/share/wlogout/icons/reboot.png"));
+}
+
+#reboot:hover {
+    background-color: {{peach}};
+    border-color: {{peach}};
+}

@@ -1,12 +1,14 @@
-/* dripkit waybar theme */
+/* dripkit default waybar — island style */
 
 * {
-    font-family: "{{font}}", "{{mono_font}}", "Font Awesome 6 Free";
-    font-size: 13px;
-    font-weight: 600;
+    font-family: "{{mono_font}}";
+    font-size: 14px;
+    font-weight: 500;
     border: none;
     border-radius: 0;
     min-height: 0;
+    padding: 0;
+    margin: 0;
 }
 
 #waybar {
@@ -14,110 +16,124 @@
     color: {{fg}};
 }
 
-/* --- Left modules --- */
-
-#workspaces {
-    background: {{bg}};
-    border-radius: 12px;
-    padding: 2px 4px;
-    margin: 4px 4px;
+.modules-left {
+    background: rgba({{bg_rgb}}, 0.88);
+    border-radius: 14px;
+    border: 1px solid {{surface1}};
+    padding: 0 2px;
 }
 
+#custom-logo {
+    color: {{accent}};
+    font-size: 18px;
+    padding: 6px 8px 6px 10px;
+}
+
+#custom-logo:hover { color: {{blue}}; }
+
+#workspaces { padding: 0 6px 0 0; }
+
 #workspaces button {
-    padding: 2px 8px;
-    margin: 2px 2px;
-    border-radius: 8px;
+    padding: 6px 10px;
+    margin: 3px 2px;
+    border-radius: 10px;
     color: {{overlay0}};
     background: transparent;
-    transition: all 0.2s ease;
+    font-size: 13px;
+    transition: all 0.15s ease;
 }
 
 #workspaces button.active {
-    color: {{bg}};
-    background: {{accent}};
+    color: {{accent}};
+    background: alpha({{accent}}, 0.18);
 }
 
 #workspaces button:hover {
     color: {{fg}};
-    background: {{surface1}};
+    background: {{surface0}};
 }
 
 #workspaces button.urgent {
-    color: {{bg}};
-    background: {{red}};
+    color: {{red}};
+    background: alpha({{red}}, 0.15);
 }
 
-#window {
-    background: {{bg}};
-    color: {{subtext0}};
-    border-radius: 12px;
-    padding: 2px 12px;
-    margin: 4px 4px;
+.modules-center {
+    background: rgba({{bg_rgb}}, 0.88);
+    border-radius: 14px;
+    border: 1px solid {{surface1}};
 }
-
-/* --- Center modules --- */
 
 #clock {
-    background: {{bg}};
     color: {{fg}};
-    border-radius: 12px;
-    padding: 2px 16px;
-    margin: 4px 4px;
     font-weight: 700;
+    padding: 6px 20px;
 }
 
-/* --- Right modules --- */
-
-#cpu,
-#memory,
-#temperature,
-#backlight,
-#wireplumber,
-#battery,
-#tray,
-#custom-power {
-    background: {{bg}};
-    border-radius: 12px;
-    padding: 2px 10px;
-    margin: 4px 2px;
+.modules-right {
+    background: rgba({{bg_rgb}}, 0.88);
+    border-radius: 14px;
+    border: 1px solid {{surface1}};
+    padding: 0 4px;
 }
 
-#cpu { color: {{red}}; }
-#memory { color: {{yellow}}; }
-#temperature { color: {{peach}}; }
-#temperature.critical { color: {{red}}; background: {{surface0}}; }
-#backlight { color: {{teal}}; }
-#wireplumber { color: {{mauve}}; }
+#custom-sep,
+#custom-sep#2,
+#custom-sep#3,
+#custom-sep#4,
+#custom-sep#5 {
+    color: {{surface2}};
+    font-size: 11px;
+    padding: 0 2px;
+    margin: 6px 0;
+}
 
-#battery { color: {{green}}; }
+#cpu           { color: {{red}};    padding: 6px 10px; margin: 3px 0; }
+#memory        { color: {{yellow}}; padding: 6px 10px; margin: 3px 0; }
+#temperature   { color: {{peach}};  padding: 6px 10px; margin: 3px 0; }
+#backlight     { color: {{teal}};   padding: 6px 10px; margin: 3px 0; }
+#wireplumber   { color: {{mauve}};  padding: 6px 10px; margin: 3px 0; }
+#wireplumber.muted { color: {{overlay0}}; }
+
+#temperature.critical { color: {{red}}; font-weight: 700; }
+
+#battery {
+    color: {{green}};
+    padding: 6px 10px;
+    margin: 3px 0;
+    border-left: 1px solid {{surface2}};
+    margin-left: 4px;
+    padding-left: 14px;
+}
+
 #battery.charging, #battery.plugged { color: {{green}}; }
-#battery.warning { color: {{yellow}}; }
+#battery.warning:not(.charging) { color: {{yellow}}; }
 #battery.critical:not(.charging) {
     color: {{red}};
-    animation: blink 0.5s linear infinite alternate;
+    animation: pulse 1s ease infinite alternate;
 }
 
-@keyframes blink {
-    to { color: {{fg}}; }
-}
+@keyframes pulse { to { color: {{fg}}; } }
 
-#tray {
-    color: {{subtext0}};
-}
+#tray { padding: 6px 6px; margin: 3px 0; color: {{subtext0}}; }
+#tray > .passive { -gtk-icon-effect: dim; }
 
 #custom-power {
     color: {{red}};
-    padding: 2px 8px;
+    padding: 6px 12px 6px 8px;
+    margin: 3px 0;
+    font-size: 15px;
+    transition: all 0.2s ease;
 }
 
-#custom-power:hover {
-    background: {{red}};
-    color: {{bg}};
-}
+#custom-power:hover { color: {{fg}}; }
 
 tooltip {
     background: {{bg}};
     border: 1px solid {{surface1}};
-    border-radius: 8px;
+    border-radius: 12px;
     color: {{fg}};
+    padding: 8px;
 }
+
+tooltip label { color: {{fg}}; }
