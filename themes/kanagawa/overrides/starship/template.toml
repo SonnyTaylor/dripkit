@@ -1,0 +1,22 @@
+# dripkit starship — Kanagawa Zen
+# Minimalist path with kanji separator
+
+format = """
+$directory$git_branch\
+$line_break\
+$character"""
+
+[directory]
+style = "bold {{accent}}"
+format = "[$repo_root]($style)"
+truncation_length = 1
+truncate_to_repo = true
+
+[git_branch]
+symbol = "竹"
+style = "{{yellow}}"
+format = "[ $symbol $branch]($style)"
+
+[character]
+success_symbol = "[❯](bold {{green}})"
+error_symbol = "[❯](bold {{red}})"

@@ -1,0 +1,45 @@
+# dripkit starship — rose-pine
+# Soft elegant two-line prompt
+
+format = """
+$directory\
+$git_branch\
+$git_status\
+$line_break\
+$character"""
+
+[directory]
+style = "bold {{accent}}"
+format = "[ $path]($style) "
+truncation_length = 4
+truncation_symbol = "…/"
+
+[directory.substitutions]
+"Documents" = " "
+"Downloads" = " "
+"Music" = " "
+"Pictures" = " "
+"Code" = " "
+
+[git_branch]
+symbol = " "
+style = "{{pink}}"
+format = "[$symbol$branch]($style)"
+
+[git_status]
+style = "{{pink}}"
+format = "[ $all_status$ahead_behind]($style)"
+conflicted = ""
+ahead = "⇡${count}"
+behind = "⇣${count}"
+diverged = "⇕⇡${ahead_count}⇣${behind_count}"
+untracked = "?"
+stashed = "≡"
+modified = "!"
+staged = "+"
+renamed = "»"
+deleted = "✘"
+
+[character]
+success_symbol = "[❯](bold {{green}})"
+error_symbol = "[❯](bold {{red}})"

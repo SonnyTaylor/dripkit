@@ -1,0 +1,25 @@
+# dripkit starship — Monokai Pro Colorful Tags
+# Bold colorful segments, each piece a different bright color
+
+format = """
+$directory$git_branch$cmd_duration $character"""
+
+[directory]
+style = "bold {{yellow}}"
+format = "[ $repo_root]($style)"
+truncation_length = 1
+truncate_to_repo = true
+
+[git_branch]
+symbol = ""
+style = "bold {{pink}}"
+format = "[ $symbol $branch]($style)"
+
+[cmd_duration]
+min_time = 500
+style = "bold {{blue}}"
+format = " [ $duration]($style)"
+
+[character]
+success_symbol = "[❯](bold {{green}})"
+error_symbol = "[❯](bold {{red}})"

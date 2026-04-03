@@ -1,0 +1,43 @@
+# dripkit starship — Horizon Warm Gradient
+# Warm directory to cool git, mimicking sunset-to-twilight
+
+format = """
+$directory$git_branch$git_status\
+$line_break\
+$character"""
+
+[directory]
+style = "bold {{peach}}"
+format = "[$path ]($style)"
+truncation_length = 3
+truncation_symbol = "…/"
+
+[directory.substitutions]
+"Documents" = " "
+"Downloads" = " "
+"Music" = " "
+"Pictures" = " "
+"Code" = " "
+
+[git_branch]
+symbol = ""
+style = "{{teal}}"
+format = "[$symbol $branch]($style)"
+
+[git_status]
+style = "{{yellow}}"
+format = "[ $all_status$ahead_behind]($style)"
+modified = "~"
+staged = "+"
+untracked = "?"
+deleted = "✘"
+renamed = "»"
+conflicted = ""
+ahead = "⇡${count}"
+behind = "⇣${count}"
+diverged = "⇕⇡${ahead_count}⇣${behind_count}"
+stashed = "≡"
+
+[character]
+success_symbol = "[❯](bold {{green}})"
+error_symbol = "[❯](bold {{red}})"

@@ -74,14 +74,22 @@ apply_module() {
         if [[ -f "$module_dir/apply.sh" ]]; then
             source "$module_dir/apply.sh" "$theme_dir" "$override_dir"
         else
-            # Copy override files directly
+            # Copy or render override files
             for f in "$override_dir"/*; do
                 [[ -f "$f" ]] || continue
                 local basename="$(basename "$f")"
                 local target
-                target="$(get_module_target "$module" "$basename")"
-                mkdir -p "$(dirname "$target")"
-                cp "$f" "$target"
+                # Template overrides get rendered, plain files get copied
+                if [[ "$basename" == template.* ]]; then
+                    local outname="${basename#template.}"
+                    target="$(get_module_target "$module" "$outname")"
+                    mkdir -p "$(dirname "$target")"
+                    render_template "$f" > "$target"
+                else
+                    target="$(get_module_target "$module" "$basename")"
+                    mkdir -p "$(dirname "$target")"
+                    cp "$f" "$target"
+                fi
             done
         fi
         return 0

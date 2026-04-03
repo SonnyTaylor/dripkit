@@ -1,0 +1,32 @@
+# dripkit starship — One Dark IDE Status
+# Clean one-line developer prompt, like a code editor breadcrumb
+
+format = """
+$directory$git_branch$cmd_duration $character"""
+
+[directory]
+style = "bold {{blue}}"
+format = "[$path]($style)"
+truncation_length = 3
+truncation_symbol = "…/"
+
+[directory.substitutions]
+"Documents" = " "
+"Downloads" = " "
+"Music" = " "
+"Pictures" = " "
+"Code" = " "
+
+[git_branch]
+symbol = ""
+style = "{{mauve}}"
+format = "[ $symbol $branch]($style)"
+
+[cmd_duration]
+min_time = 500
+style = "{{subtext0}}"
+format = " [$duration]($style)"
+
+[character]
+success_symbol = "[λ](bold {{green}})"
+error_symbol = "[λ](bold {{red}})"

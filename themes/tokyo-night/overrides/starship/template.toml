@@ -1,0 +1,29 @@
+# dripkit starship — tokyo-night
+# Cyberpunk one-liner
+
+format = """
+$time\
+$directory\
+$git_branch\
+$character"""
+
+[time]
+disabled = false
+style = "{{overlay0}}"
+format = "[\\[$time\\]]($style) "
+time_format = "%H:%M"
+
+[directory]
+style = "bold {{teal}}"
+format = "[$path]($style) "
+truncation_length = 2
+truncation_symbol = "…/"
+
+[git_branch]
+symbol = ""
+style = "{{mauve}}"
+format = "[($branch)]($style) "
+
+[character]
+success_symbol = "[λ](bold {{accent}})"
+error_symbol = "[λ](bold {{red}})"

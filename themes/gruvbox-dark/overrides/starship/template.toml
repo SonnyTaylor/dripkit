@@ -1,0 +1,54 @@
+# dripkit starship — gruvbox-dark
+# Retro classic two-line prompt
+
+format = """
+$username\
+[ in ]({{overlay0}})\
+$directory\
+[ on ]({{overlay0}})\
+$git_branch\
+$git_status\
+$line_break\
+$character"""
+
+[username]
+show_always = true
+style_user = "bold {{yellow}}"
+style_root = "bold {{red}}"
+format = "[$user]($style)"
+
+[directory]
+style = "bold {{green}}"
+format = "[$path]($style)"
+truncation_length = 4
+truncation_symbol = "…/"
+
+[directory.substitutions]
+"Documents" = " "
+"Downloads" = " "
+"Music" = " "
+"Pictures" = " "
+"Code" = " "
+
+[git_branch]
+symbol = " "
+style = "{{peach}}"
+format = "[$symbol$branch]($style)"
+
+[git_status]
+style = "{{peach}}"
+format = "[$all_status$ahead_behind]($style)"
+conflicted = ""
+ahead = "⇡${count}"
+behind = "⇣${count}"
+diverged = "⇕⇡${ahead_count}⇣${behind_count}"
+untracked = "?"
+stashed = "≡"
+modified = "!"
+staged = "+"
+renamed = "»"
+deleted = "✘"
+
+[character]
+success_symbol = "[\\$]({{fg}})"
+error_symbol = "[\\$](bold {{red}})"
