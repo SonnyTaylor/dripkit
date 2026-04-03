@@ -1,0 +1,22 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+DRIPKIT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+
+if ! command -v cliphist &>/dev/null; then
+    notify-send "dripkit" "cliphist not installed" -u critical
+    exit 1
+fi
+
+CONFIG_DIR="${XDG_CONFIG_HOME:-$HOME/.config}"
+THEME="$CONFIG_DIR/rofi/dripkit.rasi"
+[[ -f "$THEME" ]] || THEME="$DRIPKIT_DIR/bin/picker-theme.rasi"
+
+chosen=$(cliphist list | rofi -dmenu -i \
+    -theme "$THEME" \
+    -p "  Clipboard" \
+    -display-columns 2)
+
+[[ -n "$chosen" ]] || exit 0
+
+echo "$chosen" | cliphist decode | wl-copy

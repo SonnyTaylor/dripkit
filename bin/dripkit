@@ -126,6 +126,7 @@ get_module_target() {
         rofi)       echo "$CONFIG_DIR/rofi/dripkit.rasi" ;;
         alacritty)  echo "$CONFIG_DIR/alacritty/dripkit.toml" ;;
         dunst)      echo "$CONFIG_DIR/dunst/dunstrc" ;;
+        hypridle)   echo "$CONFIG_DIR/hypr/hypridle.conf" ;;
         hyprlock)   echo "$CONFIG_DIR/hypr/hyprlock.conf" ;;
         hyprpaper)  echo "$CONFIG_DIR/hypr/hyprpaper.conf" ;;
         cava)       echo "$CONFIG_DIR/cava/config" ;;
@@ -161,6 +162,12 @@ restart_services() {
         sleep 0.3
         hyprpaper &disown 2>/dev/null
         info "Restarted hyprpaper"
+    fi
+    # Hypridle
+    if pgrep -x hypridle &>/dev/null; then
+        killall hypridle 2>/dev/null
+        hypridle &disown 2>/dev/null
+        info "Restarted hypridle"
     fi
 }
 

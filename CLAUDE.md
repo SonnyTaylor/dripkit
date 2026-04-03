@@ -8,14 +8,15 @@ dripkit is a Hyprland theme framework. It applies color palettes and custom layo
 
 - `bin/dripkit` — Bash CLI. Reads `colors.conf` from a theme, substitutes `{{var}}` placeholders in module templates, writes output to `~/.config/`. Restarts affected services.
 - `bin/dripkit-picker` — Rofi-based GUI picker. Generates wallpaper thumbnails with ImageMagick.
+- `bin/dripkit-clipboard` — Rofi-based clipboard history picker (cliphist + rofi).
 - `bin/dripkit-keybinds` — Keybinds cheat sheet. Parses live binds from `hyprctl binds -j`.
 - `modules/` — 17 modules. Each has either `template.*` files (rendered via substitution) or `apply.sh` (sourced by dripkit for custom logic).
 - `themes/` — 13 themes. Each has `colors.conf`, `theme.toml`, wallpapers, and optional `overrides/`.
 - `install.sh` — Atomic installer with backup/restore. Flags: `--auto`, `--uninstall`, `--dry-run`.
 
-## Modules (17)
+## Modules (18)
 
-Template-based: hyprland, waybar, rofi, alacritty, dunst, hyprlock, hyprpaper, cava, fastfetch, starship, wlogout
+Template-based: hyprland, waybar, rofi, alacritty, dunst, hypridle, hyprlock, hyprpaper, cava, fastfetch, starship, wlogout
 Script-based (apply.sh): gtk, qt, fish, btop, bat, fzf
 
 ## How the template engine works
@@ -48,6 +49,7 @@ Defined in `get_module_target()` in `bin/dripkit`:
 - rofi → `~/.config/rofi/dripkit.rasi`
 - alacritty → `~/.config/alacritty/dripkit.toml`
 - dunst → `~/.config/dunst/dunstrc`
+- hypridle → `~/.config/hypr/hypridle.conf`
 - hyprlock → `~/.config/hypr/hyprlock.conf`
 - hyprpaper → `~/.config/hypr/hyprpaper.conf`
 - cava → `~/.config/cava/config`

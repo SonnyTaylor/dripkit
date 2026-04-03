@@ -58,6 +58,7 @@ MANAGED_FILES=(
     "$CONFIG_DIR/hypr/config/user-config.conf"
     "$CONFIG_DIR/hypr/hyprpaper.conf"
     "$CONFIG_DIR/hypr/hyprlock.conf"
+    "$CONFIG_DIR/hypr/hypridle.conf"
     "$CONFIG_DIR/waybar/config"
     "$CONFIG_DIR/waybar/style.css"
     "$CONFIG_DIR/rofi/config.rasi"
@@ -79,8 +80,8 @@ WIRED_FILES=(
 )
 
 # --- Dependencies ---
-REQUIRED_DEPS=(hyprland waybar rofi alacritty dunst hyprpaper)
-OPTIONAL_DEPS=(hyprlock imagemagick wlogout)
+REQUIRED_DEPS=(hyprland waybar rofi alacritty dunst hyprpaper hyprlock hypridle cliphist wl-clipboard)
+OPTIONAL_DEPS=(imagemagick wlogout brightnessctl)
 
 # ============================================================================
 # HELP
@@ -147,6 +148,7 @@ preflight() {
         [[ "$dep" == "hyprland" ]] && cmd="Hyprland"
         [[ "$dep" == "rofi" ]] && cmd="rofi"
         [[ "$dep" == "imagemagick" ]] && cmd="magick"
+        [[ "$dep" == "wl-clipboard" ]] && cmd="wl-copy"
         if ! command -v "$cmd" &>/dev/null; then
             # Try package name directly
             if ! command -v "$dep" &>/dev/null; then
@@ -180,7 +182,7 @@ preflight() {
 
     if [[ ${#MISSING_OPTIONAL[@]} -gt 0 ]]; then
         warn "Missing optional dependencies: ${MISSING_OPTIONAL[*]}"
-        warn "  (theme picker thumbnails need imagemagick, lock screen needs hyprlock)"
+        warn "  (theme picker thumbnails need imagemagick, brightness dimming needs brightnessctl)"
     fi
 
     # Check Hyprland is running
@@ -288,12 +290,13 @@ do_restore() {
 
     # Remove dripkit-specific files that wouldn't have existed before
     rm -f "$CONFIG_DIR/hypr/config/dripkit.conf"
+    rm -f "$CONFIG_DIR/hypr/hypridle.conf"
     rm -f "$CONFIG_DIR/alacritty/dripkit.toml"
     rm -f "$CONFIG_DIR/rofi/dripkit.rasi"
 
     # Remove dripkit wiring from user-config.conf
     if [[ -f "$CONFIG_DIR/hypr/config/user-config.conf" ]]; then
-        sed -i '/# dripkit theme/d; /dripkit\.conf/d; /dripkit-picker/d; /Theme picker keybind/d' \
+        sed -i '/# dripkit theme/d; /dripkit\.conf/d; /dripkit-picker/d; /Theme picker keybind/d; /dripkit-clipboard/d; /Clipboard history keybind/d' \
             "$CONFIG_DIR/hypr/config/user-config.conf"
     fi
 
@@ -347,9 +350,14 @@ source = ~/.config/hypr/config/dripkit.conf
 
 # Theme picker keybind
 bindd = $mainMod, T, Launch dripkit theme picker, exec, DRIPKIT_PICKER_PATH
+
+# Clipboard history (unbind default togglefloating)
+unbind = $mainMod, V
+bindd = $mainMod, V, Open clipboard history, exec, DRIPKIT_CLIPBOARD_PATH
 HYPR
-        # Replace placeholder with actual path
+        # Replace placeholders with actual paths
         sed -i "s|DRIPKIT_PICKER_PATH|$DRIPKIT_DIR/bin/dripkit-picker|" "$tmp_dir/hypr/config/user-config.conf"
+        sed -i "s|DRIPKIT_CLIPBOARD_PATH|$DRIPKIT_DIR/bin/dripkit-clipboard|" "$tmp_dir/hypr/config/user-config.conf"
     fi
 
     # --- 3. Wire into Alacritty ---
@@ -530,6 +538,7 @@ do_uninstall() {
     if $DRY_RUN; then
         dry "Would remove symlink: $LOCAL_BIN/dripkit"
         dry "Would remove: $CONFIG_DIR/hypr/config/dripkit.conf"
+        dry "Would remove: $CONFIG_DIR/hypr/hypridle.conf"
         dry "Would remove: $CONFIG_DIR/alacritty/dripkit.toml"
         dry "Would remove: $CONFIG_DIR/rofi/dripkit.rasi"
         dry "Would remove dripkit lines from user-config.conf and alacritty.toml"
@@ -707,6 +716,7 @@ main() {
     echo "    dripkit list          — see available themes"
     echo "    dripkit apply <name>  — apply a theme"
     echo "    SUPER + T             — open theme picker"
+    echo "    SUPER + V             — open clipboard history"
     echo ""
     echo -e "  ${BOLD}Undo:${NC}"
     echo "    ./install.sh --uninstall"
