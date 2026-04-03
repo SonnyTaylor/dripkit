@@ -10,7 +10,7 @@ dripkit is a Hyprland theme framework. It applies color palettes and custom layo
 - `bin/dripkit-picker` — Rofi-based GUI picker. Generates wallpaper thumbnails with ImageMagick.
 - `bin/dripkit-keybinds` — Keybinds cheat sheet. Parses live binds from `hyprctl binds -j`.
 - `modules/` — 17 modules. Each has either `template.*` files (rendered via substitution) or `apply.sh` (sourced by dripkit for custom logic).
-- `themes/` — 5 themes. Each has `colors.conf`, `theme.toml`, wallpapers, and optional `overrides/`.
+- `themes/` — 13 themes. Each has `colors.conf`, `theme.toml`, wallpapers, and optional `overrides/`.
 - `install.sh` — Atomic installer with backup/restore. Flags: `--auto`, `--uninstall`, `--dry-run`.
 
 ## Modules (17)
@@ -24,7 +24,7 @@ Script-based (apply.sh): gtk, qt, fish, btop, bat, fzf
 2. Auto-generates `_nohash` variants (strips `#` from hex colors) for apps needing bare hex
 3. Reads `theme.toml` for metadata (wallpaper, name, etc.)
 4. Resolves relative wallpaper paths against the theme directory
-5. For each module: checks `overrides/<module>/` first (copies directly), otherwise renders `template.*` files by replacing `{{key}}` with values
+5. For each module: checks `overrides/<module>/` first. Override files named `template.*` get rendered with variable substitution; plain files get copied directly. Otherwise renders the module's own `template.*` files.
 6. Script modules (`apply.sh`) get sourced with theme_dir as $1 and have access to the COLORS array
 7. Restarts waybar, dunst, hyprpaper after applying
 
